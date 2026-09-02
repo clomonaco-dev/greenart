@@ -18,7 +18,6 @@ export default function HomePage() {
     <LanguageProvider>
       <Intro />
       <Header />
-
       <main>
         <Hero />
         <About />
@@ -31,7 +30,6 @@ export default function HomePage() {
         <Contact />
         <OfferForm />
       </main>
-
       <Footer />
     </LanguageProvider>
   );
