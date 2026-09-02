@@ -1,0 +1,33 @@
+"use client";
+
+import { useLanguage } from "./LanguageProvider";
+import Reveal from "./Reveal";
+
+export default function Quality() {
+  const { t } = useLanguage();
+
+  return (
+    <section className="section section--quality" id="quality">
+      <Reveal className="quality-panel">
+        <p className="eyebrow">{t("quality.kicker")}</p>
+        <h2>{t("quality.title")}</h2>
+        <p>{t("quality.text")}</p>
+
+        <div className="quality-stats">
+          <div>
+            <strong>100%</strong>
+            <span>{t("quality.stat1")}</span>
+          </div>
+          <div>
+            <strong>B2B</strong>
+            <span>{t("quality.stat2")}</span>
+          </div>
+          <div>
+            <strong>4</strong>
+            <span>{t("quality.stat3")}</span>
+          </div>
+        </div>
+      </Reveal>
+    </section>
+  );
+}
