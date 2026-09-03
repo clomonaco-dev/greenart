@@ -17,6 +17,11 @@ export default function Intro() {
 
     return () => {
       timersRef.current.forEach(clearTimeout);
+      const audio = audioRef.current;
+      if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
       document.body.classList.remove("intro-open");
     };
   }, []);
@@ -39,28 +44,30 @@ export default function Intro() {
 
     queue(() => setPhase("description"), 4750);
     queue(() => setPhase("b2b"), 9500);
-    queue(() => setPhase("continue"), 14500);
+    queue(() => {
+      setPhase("continue");
+      stopAudio();
+    }, 14500);
+  }
+
+  function stopAudio() {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    // iOS Safari does not reliably support script-controlled volume fades.
+    // Pause and reset immediately so the intro audio can never continue on the Home page.
+    audio.pause();
+    audio.currentTime = 0;
+    setSoundOn(false);
   }
 
   function closeIntro() {
     timersRef.current.forEach(clearTimeout);
     timersRef.current = [];
 
+    stopAudio();
     setHidden(true);
     document.body.classList.remove("intro-open");
-
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    const fade = window.setInterval(() => {
-      if (audio.volume > 0.04) {
-        audio.volume = Math.max(0, audio.volume - 0.04);
-      } else {
-        window.clearInterval(fade);
-        audio.pause();
-        audio.currentTime = 0;
-      }
-    }, 70);
   }
 
   function toggleSound() {
@@ -152,7 +159,7 @@ export default function Intro() {
         </div>
       )}
 
-      <audio ref={audioRef} preload="auto" loop>
+      <audio ref={audioRef} preload="auto" onEnded={() => setSoundOn(false)}>
         <source src="/audio/intro.wav" type="audio/wav" />
       </audio>
     </div>

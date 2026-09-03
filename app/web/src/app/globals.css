@@ -2356,3 +2356,313 @@ img {
     font-size: 36px;
   }
 }
+
+/* =========================================================
+   V5 — MOBILE-FIRST HERO / READABILITY / AUDIO-EXIT SUPPORT
+   The Home hero becomes a real stacked composition on phones,
+   with no oversized artwork overlapping the copy or facts.
+   ========================================================= */
+
+/* The desktop navigation remains refined but no longer microscopic. */
+@media (min-width: 1381px) {
+  .site-nav a {
+    font-size: 12px;
+    letter-spacing: .06em;
+  }
+
+  .language-switcher button {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 720px) {
+  :root {
+    --header-height: 70px;
+  }
+
+  .site-header {
+    min-height: var(--header-height);
+    padding-inline: 20px;
+    background: rgba(248, 246, 240, .94);
+    backdrop-filter: blur(18px) saturate(112%);
+  }
+
+  .menu-toggle {
+    width: 46px;
+    height: 46px;
+  }
+
+  .menu-toggle span {
+    width: 27px;
+    height: 1.5px;
+    margin: 8px auto;
+  }
+
+  .site-nav {
+    top: var(--header-height);
+    min-height: calc(100svh - var(--header-height));
+    padding: 24px 24px 38px;
+  }
+
+  .site-nav a {
+    padding: 16px 0;
+    font-size: 16px;
+    font-weight: 560;
+    letter-spacing: .035em;
+    text-transform: none;
+  }
+
+  .site-nav .nav-cta {
+    margin-top: 20px;
+    padding: 17px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+  }
+
+  .language-switcher--mobile {
+    margin-top: 28px;
+    gap: 14px;
+  }
+
+  .language-switcher button {
+    padding: 8px 0;
+    font-size: 12px;
+  }
+
+  .hero {
+    min-height: auto;
+    padding: calc(var(--header-height) + 38px) 20px 68px;
+    display: block;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 86% 16%, rgba(120,133,111,.14), transparent 18rem),
+      linear-gradient(180deg, #f8f6ef 0%, #f1eee6 64%, #ebe8df 100%);
+  }
+
+  .hero__ambient::after {
+    opacity: .14;
+    background-size: 58px 58px;
+    mask-image: linear-gradient(to bottom, black 0%, rgba(0,0,0,.75) 54%, transparent 92%);
+  }
+
+  .hero__wash {
+    top: -6%;
+    right: -42%;
+    width: 120vw;
+    opacity: .72;
+  }
+
+  .hero__ring--one {
+    top: 5%;
+    right: -58%;
+    width: 132vw;
+    min-width: 0;
+  }
+
+  .hero__ring--two {
+    top: 10%;
+    right: -34%;
+    width: 92vw;
+    min-width: 0;
+  }
+
+  .hero__layout {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .hero__content {
+    width: 100%;
+    max-width: none;
+  }
+
+  .hero .eyebrow {
+    margin-bottom: 17px;
+    font-size: 10px;
+    letter-spacing: .19em;
+  }
+
+  .hero h1 {
+    max-width: 12ch;
+    font-size: clamp(42px, 11.5vw, 54px);
+    line-height: .98;
+    letter-spacing: -.042em;
+  }
+
+  .hero__lead {
+    max-width: 34rem;
+    margin-top: 24px;
+    font-size: 16px;
+    line-height: 1.72;
+  }
+
+  .hero__actions {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .hero__actions .button {
+    width: 100%;
+    min-height: 54px;
+    font-size: 10px;
+  }
+
+  /* On mobile the logo is part of the document flow, never an overlay. */
+  .hero__art {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    margin: 2px 0 0;
+    opacity: 1;
+    transform: none;
+  }
+
+  .hero__logo-stage {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    aspect-ratio: auto;
+    padding: 34px 18px 30px;
+    overflow: hidden;
+    box-shadow: 0 22px 56px rgba(23,27,24,.14);
+  }
+
+  .hero__logo-stage::before {
+    inset: 9px;
+  }
+
+  .hero__logo-stage::after {
+    display: none;
+  }
+
+  .hero__logo {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .hero__logo-stage-kicker,
+  .hero__logo-stage-meta {
+    position: static;
+    display: block;
+    font-size: 7px;
+    line-height: 1.45;
+    letter-spacing: .15em;
+  }
+
+  .hero__logo-stage-kicker {
+    margin-bottom: 20px;
+  }
+
+  .hero__logo-stage-meta {
+    margin-top: 18px;
+    text-align: left;
+  }
+
+  /* Facts follow the logo; they no longer sit underneath / behind it. */
+  .hero__facts {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    width: 100%;
+    margin: 28px 0 0;
+    grid-template-columns: 1fr;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .hero__facts > div {
+    min-height: 54px;
+    padding: 13px 0;
+    display: grid;
+    grid-template-columns: 112px 1fr;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .hero__facts > div + div {
+    padding-left: 0;
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .hero__facts span {
+    font-size: 8px;
+    line-height: 1.35;
+    letter-spacing: .14em;
+  }
+
+  .hero__facts strong {
+    font-size: 11px;
+    line-height: 1.4;
+    letter-spacing: .055em;
+  }
+
+  .scroll-indicator {
+    display: none;
+  }
+
+  /* General mobile typography: keep the premium serif, reduce forced wrapping. */
+  .section h2,
+  .home-menu h2 {
+    max-width: 12ch;
+    font-size: clamp(38px, 10.5vw, 52px);
+    line-height: 1.01;
+  }
+
+  .section__copy > p:not(.eyebrow),
+  .section-heading > p:not(.eyebrow),
+  .offer-copy > p:not(.eyebrow),
+  .home-menu__heading > p:not(.eyebrow) {
+    font-size: 16px;
+    line-height: 1.72;
+  }
+
+  .eyebrow {
+    font-size: 9px;
+    letter-spacing: .2em;
+  }
+
+  /* Intro controls stay comfortably tappable on iPhone. */
+  .intro__tools {
+    right: 20px;
+    bottom: max(22px, env(safe-area-inset-bottom));
+    left: 20px;
+  }
+
+  .intro__tools button,
+  .intro__mute-enter {
+    min-height: 40px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 390px) {
+  .hero {
+    padding-inline: 18px;
+  }
+
+  .hero h1 {
+    font-size: 40px;
+  }
+
+  .hero__lead {
+    font-size: 15px;
+  }
+
+  .hero__logo-stage {
+    padding-inline: 14px;
+  }
+
+  .hero__facts > div {
+    grid-template-columns: 98px 1fr;
+  }
+}
