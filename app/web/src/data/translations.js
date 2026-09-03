@@ -116,6 +116,9 @@ export const translations = {
     "contact.text": "For international distribution, wholesale enquiries or potential partnerships, contact the GreenArt team. Commercial conversations are handled directly with professional operators.",
     "contact.scope": "International B2B enquiries",
     "contact.visual": "Premium cultivation · International partnerships",
+    "contact.directLabel": "DIRECT EMAIL",
+    "contact.writeEmail": "WRITE EMAIL",
+    "contact.emailNote": "Opens your preferred email application.",
 
     "offer.kicker": "REQUEST B2B OFFER",
     "offer.title": "Tell us where GreenArt could fit in your market.",
@@ -255,6 +258,9 @@ export const translations = {
     "contact.text": "Para distribución internacional, consultas mayoristas o posibles colaboraciones, contacte con el equipo GreenArt. Las conversaciones comerciales se gestionan directamente con operadores profesionales.",
     "contact.scope": "Consultas B2B internacionales",
     "contact.visual": "Cultivo premium · Colaboraciones internacionales",
+    "contact.directLabel": "EMAIL DIRECTO",
+    "contact.writeEmail": "ESCRIBIR EMAIL",
+    "contact.emailNote": "Abre su aplicación de correo preferida.",
 
     "offer.kicker": "SOLICITAR OFERTA B2B",
     "offer.title": "Cuéntanos dónde podría encajar GreenArt en tu mercado.",
@@ -394,6 +400,9 @@ export const translations = {
     "contact.text": "Per distribuzione internazionale, richieste wholesale o potenziali partnership, contatta il team GreenArt. Le conversazioni commerciali sono gestite direttamente con operatori professionali.",
     "contact.scope": "Richieste B2B internazionali",
     "contact.visual": "Coltivazione premium · Partnership internazionali",
+    "contact.directLabel": "EMAIL DIRETTA",
+    "contact.writeEmail": "SCRIVI EMAIL",
+    "contact.emailNote": "Apre la tua applicazione email predefinita.",
 
     "offer.kicker": "RICHIEDI OFFERTA B2B",
     "offer.title": "Raccontaci dove GreenArt può inserirsi nel tuo mercato.",
@@ -533,6 +542,9 @@ export const translations = {
     "contact.text": "Für internationale Distribution, Großhandelsanfragen oder potenzielle Partnerschaften kontaktieren Sie das GreenArt-Team. Geschäftsgespräche werden direkt mit professionellen Betreibern geführt.",
     "contact.scope": "Internationale B2B-Anfragen",
     "contact.visual": "Premium-Anbau · Internationale Partnerschaften",
+    "contact.directLabel": "DIREKTE E-MAIL",
+    "contact.writeEmail": "E-MAIL SCHREIBEN",
+    "contact.emailNote": "Öffnet Ihre bevorzugte E-Mail-Anwendung.",
 
     "offer.kicker": "B2B-ANGEBOT ANFRAGEN",
     "offer.title": "Sagen Sie uns, wo GreenArt in Ihren Markt passen könnte.",

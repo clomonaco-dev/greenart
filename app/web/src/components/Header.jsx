@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "./LanguageProvider";
 
@@ -25,10 +25,15 @@ export default function Header() {
     setOpen(false);
   }
 
+  useEffect(() => {
+    document.body.classList.toggle("nav-open", open);
+    return () => document.body.classList.remove("nav-open");
+  }, [open]);
+
   return (
     <header className="site-header">
       <button
-        className="menu-toggle"
+        className={`menu-toggle ${open ? "is-open" : ""}`}
         type="button"
         aria-label={open ? "Close menu" : "Open menu"}
         aria-expanded={open}
@@ -37,6 +42,13 @@ export default function Header() {
         <span />
         <span />
       </button>
+
+      <button
+        className={`nav-backdrop ${open ? "is-visible" : ""}`}
+        type="button"
+        aria-label="Close menu"
+        onClick={closeMenu}
+      />
 
       <nav className={`site-nav ${open ? "open" : ""}`} aria-label="Main navigation">
         {navItems.map(([href, key]) => (

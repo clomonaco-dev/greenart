@@ -2666,3 +2666,295 @@ img {
     grid-template-columns: 98px 1fr;
   }
 }
+
+/* CONTACT — direct email CTA */
+.contact-copy {
+  align-self: center;
+}
+
+.contact-email-panel {
+  position: relative;
+  margin-top: 42px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.72), rgba(237,240,232,.78)),
+    var(--paper-light);
+  box-shadow: 0 16px 42px rgba(23,27,24,.07);
+}
+
+.contact-email-panel::before {
+  content: "";
+  position: absolute;
+  width: 170px;
+  height: 170px;
+  right: -78px;
+  top: -86px;
+  border: 1px solid rgba(120,133,111,.16);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.contact-email-panel__copy {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.contact-email-panel__label {
+  color: var(--sage-deep);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.contact-email-panel__address {
+  width: fit-content;
+  max-width: 100%;
+  color: var(--ink);
+  font-family: "Iowan Old Style", Baskerville, Georgia, serif;
+  font-size: clamp(22px, 2.3vw, 34px);
+  line-height: 1.05;
+  letter-spacing: -.02em;
+  overflow-wrap: anywhere;
+}
+
+.contact-email-panel__address::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin-top: 7px;
+  background: currentColor;
+  opacity: .28;
+  transition: opacity .2s ease;
+}
+
+.contact-email-panel__address:hover::after {
+  opacity: .7;
+}
+
+.contact-email-panel__note {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.contact-email-panel__button {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  min-width: 154px;
+  gap: 10px;
+  font-size: 10px;
+}
+
+.contact-email-panel__button span {
+  font-size: 14px;
+  line-height: 1;
+}
+
+@media (max-width: 760px) {
+  .contact-email-panel {
+    margin-top: 32px;
+    padding: 20px;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .contact-email-panel__label {
+    font-size: 10px;
+  }
+
+  .contact-email-panel__address {
+    font-size: clamp(24px, 7.4vw, 32px);
+  }
+
+  .contact-email-panel__note {
+    font-size: 13px;
+  }
+
+  .contact-email-panel__button {
+    width: 100%;
+    min-height: 56px;
+    font-size: 11px;
+  }
+}
+
+/* =========================================================
+   V5.2 — PREMIUM MOBILE NAVIGATION
+   A quieter, more editorial drawer: smaller type, better rhythm,
+   subtle numbering and a restrained commercial CTA.
+   ========================================================= */
+
+.nav-backdrop {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  body.nav-open {
+    overflow: hidden;
+  }
+
+  .menu-toggle {
+    position: relative;
+    z-index: 1004;
+  }
+
+  .menu-toggle span {
+    transition: transform .28s ease, width .28s ease, opacity .2s ease;
+    transform-origin: center;
+  }
+
+  .menu-toggle.is-open span:first-child {
+    width: 24px;
+    transform: translateY(4.75px) rotate(45deg);
+  }
+
+  .menu-toggle.is-open span:last-child {
+    width: 24px;
+    transform: translateY(-4.75px) rotate(-45deg);
+  }
+
+  .nav-backdrop {
+    position: fixed;
+    inset: var(--header-height) 0 0;
+    z-index: 1001;
+    display: block;
+    border: 0;
+    background: rgba(22, 27, 23, .16);
+    backdrop-filter: blur(3px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .28s ease, visibility .28s ease;
+  }
+
+  .nav-backdrop.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .site-nav {
+    top: var(--header-height);
+    right: 0;
+    left: auto;
+    z-index: 1003;
+    width: min(88vw, 390px);
+    min-height: calc(100svh - var(--header-height));
+    max-height: calc(100svh - var(--header-height));
+    padding: 22px 25px 30px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    gap: 0;
+    background:
+      linear-gradient(180deg, rgba(250,248,242,.995), rgba(243,240,232,.995));
+    border-top: 0;
+    border-left: 1px solid rgba(23,27,24,.10);
+    box-shadow: -24px 24px 70px rgba(27, 33, 28, .12);
+    transform: translateX(104%);
+    opacity: 1;
+    transition: transform .38s cubic-bezier(.22, 1, .36, 1);
+    counter-reset: premium-nav;
+  }
+
+  .site-nav.open {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  .site-nav > a:not(.nav-cta) {
+    counter-increment: premium-nav;
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    align-items: center;
+    column-gap: 10px;
+    min-height: 50px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(23,27,24,.09);
+    color: #515851;
+    font-size: 13px;
+    font-weight: 620;
+    line-height: 1.25;
+    letter-spacing: .075em;
+    text-transform: uppercase;
+  }
+
+  .site-nav > a:not(.nav-cta)::before {
+    content: counter(premium-nav, decimal-leading-zero);
+    color: #9a9f98;
+    font-size: 9px;
+    font-weight: 650;
+    letter-spacing: .08em;
+  }
+
+  .site-nav > a:not(.nav-cta).active {
+    color: var(--ink);
+  }
+
+  .site-nav > a:not(.nav-cta).active::before {
+    color: var(--sage-deep);
+  }
+
+  .site-nav .nav-cta {
+    margin-top: 22px;
+    padding: 15px 16px;
+    border: 1px solid var(--ink);
+    color: #fff;
+    background: var(--ink);
+    font-size: 11px;
+    font-weight: 720;
+    line-height: 1.25;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+  }
+
+  .site-nav .nav-cta:hover,
+  .site-nav .nav-cta.active {
+    color: #fff;
+    background: #252b27;
+  }
+
+  .language-switcher--mobile {
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(23,27,24,.09);
+    gap: 0;
+    justify-content: space-between;
+  }
+
+  .language-switcher--mobile button {
+    min-width: 44px;
+    padding: 8px 5px;
+    color: #8b9089;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .12em;
+  }
+
+  .language-switcher--mobile button.active {
+    color: var(--ink);
+  }
+}
+
+@media (max-width: 390px) {
+  .site-nav {
+    width: 92vw;
+    padding-inline: 22px;
+  }
+
+  .site-nav > a:not(.nav-cta) {
+    min-height: 47px;
+    font-size: 12.5px;
+  }
+}
