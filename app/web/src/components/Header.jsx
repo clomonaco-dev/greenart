@@ -1,59 +1,41 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
+import logo from "@/assets/logo.jpeg";
 import { useLanguage } from "./LanguageProvider";
 
 const navItems = [
-  ["about", "nav.about"],
-  ["technology", "nav.technology"],
-  ["cultivation", "nav.cultivation"],
-  ["facility", "nav.facility"],
-  ["products", "nav.products"],
-  ["quality", "nav.quality"],
-  ["b2b", "nav.b2b"],
-  ["contact", "nav.contact"],
+  ["/", "nav.home"],
+  ["/about", "nav.about"],
+  ["/technology", "nav.technology"],
+  ["/cultivation", "nav.cultivation"],
+  ["/facility", "nav.facility"],
+  ["/products", "nav.products"],
+  ["/quality-compliance", "nav.quality"],
+  ["/b2b-wholesale", "nav.b2b"],
+  ["/contact", "nav.contact"],
 ];
 
 export default function Header() {
+  const pathname = usePathname();
   const { language, setLanguage, t } = useLanguage();
   const [open, setOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("home");
-
-  useEffect(() => {
-    const sections = [...document.querySelectorAll("main section[id]")];
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
-      },
-      {
-        rootMargin: "-35% 0px -55% 0px",
-        threshold: 0,
-      }
-    );
-
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
-  }, []);
 
   function closeMenu() {
     setOpen(false);
   }
 
   return (
-    <header className="site-header" id="top">
-      <a className="brand" href="#home" aria-label="GreenArt home">
-        <img src="/images/logo.svg" alt="GreenArt" />
+    <header className="site-header">
+      <a className="brand" href="/" aria-label="GreenArt home" onClick={closeMenu}>
+        <img src={logo.src} alt="GreenArt" />
       </a>
 
       <button
         className="menu-toggle"
         type="button"
-        aria-label="Open menu"
+        aria-label={open ? "Close menu" : "Open menu"}
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
       >
@@ -62,11 +44,11 @@ export default function Header() {
       </button>
 
       <nav className={`site-nav ${open ? "open" : ""}`} aria-label="Main navigation">
-        {navItems.map(([id, key]) => (
+        {navItems.map(([href, key]) => (
           <a
-            href={`#${id}`}
-            key={id}
-            className={activeSection === id ? "active" : ""}
+            href={href}
+            key={href}
+            className={pathname === href ? "active" : ""}
             onClick={closeMenu}
           >
             {t(key)}
@@ -74,15 +56,28 @@ export default function Header() {
         ))}
 
         <a
-          href="#offer"
-          className={`nav-cta ${activeSection === "offer" ? "active" : ""}`}
+          href="/request-b2b-offer"
+          className={`nav-cta ${pathname === "/request-b2b-offer" ? "active" : ""}`}
           onClick={closeMenu}
         >
           {t("nav.offer")}
         </a>
+
+        <div className="language-switcher language-switcher--mobile" aria-label="Language selector">
+          {["en", "es", "it", "de"].map((lang) => (
+            <button
+              type="button"
+              key={lang}
+              className={language === lang ? "active" : ""}
+              onClick={() => setLanguage(lang)}
+            >
+              {lang.toUpperCase()}
+            </button>
+          ))}
+        </div>
       </nav>
 
-      <div className="language-switcher" aria-label="Language selector">
+      <div className="language-switcher language-switcher--desktop" aria-label="Language selector">
         {["en", "es", "it", "de"].map((lang) => (
           <button
             type="button"

@@ -14,7 +14,7 @@ export default function B2B() {
         <p>{t("b2b.text")}</p>
 
         <div className="b2b-box__actions">
-          <a href="#offer" className="button button--primary">
+          <a href="/request-b2b-offer" className="button button--primary">
             {t("b2b.request")}
           </a>
           <a href="mailto:info@greenart.tech" className="text-link">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import logo from "@/assets/logo.jpeg";
 import { useLanguage } from "./LanguageProvider";
 
 export default function Intro() {
@@ -83,25 +84,13 @@ export default function Intro() {
 
       {phase === "waiting" && (
         <>
-          <button
-            className="intro__enter"
-            type="button"
-            onClick={() => startIntro(true)}
-          >
-            <img
-              src="/images/logo.svg"
-              alt="GreenArt"
-              className="intro__enter-logo"
-            />
+          <button className="intro__enter" type="button" onClick={() => startIntro(true)}>
+            <img src={logo.src} alt="GreenArt" className="intro__enter-logo" />
             <span>{t("intro.enter")}</span>
             <small>{t("intro.soundHint")}</small>
           </button>
 
-          <button
-            className="intro__mute-enter"
-            type="button"
-            onClick={() => startIntro(false)}
-          >
+          <button className="intro__mute-enter" type="button" onClick={() => startIntro(false)}>
             {t("intro.enterMuted")}
           </button>
         </>
@@ -109,7 +98,7 @@ export default function Intro() {
 
       <div className="intro__sequence">
         <img
-          src="/images/logo.svg"
+          src={logo.src}
           alt="GreenArt"
           className={[
             "intro__logo",

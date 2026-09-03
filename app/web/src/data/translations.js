@@ -6,6 +6,7 @@ export const translations = {
     "intro.continue": "DISCOVER GREENART",
     "intro.skip": "SKIP INTRO",
 
+    "nav.home": "HOME",
     "nav.about": "ABOUT GREENART",
     "nav.technology": "TECHNOLOGY",
     "nav.cultivation": "CULTIVATION",
@@ -26,6 +27,9 @@ export const translations = {
     "hero.discover": "DISCOVER GREENART",
     "hero.request": "REQUEST B2B OFFER",
     "hero.scroll": "SCROLL",
+
+    "homeMenu.title": "Explore GreenArt",
+    "homeMenu.text": "Choose an area to open the dedicated page.",
 
     "about.kicker": "ABOUT GREENART",
     "about.title": "A modern vision for controlled, professional production.",
@@ -108,6 +112,7 @@ export const translations = {
     "intro.continue": "DESCUBRIR GREENART",
     "intro.skip": "SALTAR INTRO",
 
+    "nav.home": "INICIO",
     "nav.about": "SOBRE GREENART",
     "nav.technology": "TECNOLOGÍA",
     "nav.cultivation": "CULTIVO",
@@ -128,6 +133,9 @@ export const translations = {
     "hero.discover": "DESCUBRIR GREENART",
     "hero.request": "SOLICITAR OFERTA B2B",
     "hero.scroll": "DESPLAZAR",
+
+    "homeMenu.title": "Explora GreenArt",
+    "homeMenu.text": "Elige un área para abrir su página dedicada.",
 
     "about.kicker": "SOBRE GREENART",
     "about.title": "Una visión moderna de la producción controlada y profesional.",
@@ -210,6 +218,7 @@ export const translations = {
     "intro.continue": "SCOPRI GREENART",
     "intro.skip": "SALTA INTRO",
 
+    "nav.home": "HOME",
     "nav.about": "ABOUT GREENART",
     "nav.technology": "TECNOLOGIA",
     "nav.cultivation": "COLTIVAZIONE",
@@ -230,6 +239,9 @@ export const translations = {
     "hero.discover": "SCOPRI GREENART",
     "hero.request": "RICHIEDI OFFERTA B2B",
     "hero.scroll": "SCORRI",
+
+    "homeMenu.title": "Esplora GreenArt",
+    "homeMenu.text": "Scegli un’area per aprire la pagina dedicata.",
 
     "about.kicker": "ABOUT GREENART",
     "about.title": "Una visione moderna della produzione controllata e professionale.",
@@ -312,6 +324,7 @@ export const translations = {
     "intro.continue": "GREENART ENTDECKEN",
     "intro.skip": "INTRO ÜBERSPRINGEN",
 
+    "nav.home": "STARTSEITE",
     "nav.about": "ÜBER GREENART",
     "nav.technology": "TECHNOLOGIE",
     "nav.cultivation": "ANBAU",
@@ -332,6 +345,9 @@ export const translations = {
     "hero.discover": "GREENART ENTDECKEN",
     "hero.request": "B2B-ANGEBOT ANFRAGEN",
     "hero.scroll": "SCROLLEN",
+
+    "homeMenu.title": "GreenArt entdecken",
+    "homeMenu.text": "Wählen Sie einen Bereich, um die entsprechende Seite zu öffnen.",
 
     "about.kicker": "ÜBER GREENART",
     "about.title": "Eine moderne Vision für kontrollierte, professionelle Produktion.",
