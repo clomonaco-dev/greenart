@@ -7,7 +7,7 @@ export const metadata = {
     template: "%s | GreenArt",
   },
   description:
-    "GreenArt — premium controlled light cannabis cultivation in Nebbiuno, Italy, developed for selected international B2B partners.",
+    "GreenArt — premium controlled light cannabis cultivation developed for selected international B2B partners.",
 };
 
 export default function RootLayout({ children }) {

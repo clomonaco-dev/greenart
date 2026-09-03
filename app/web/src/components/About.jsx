@@ -15,21 +15,21 @@ export default function About() {
         <p>{t("about.p2")}</p>
 
         <div className="micro-facts">
-          <div><span>{t("about.fact1")}</span><strong>Nebbiuno</strong></div>
-          <div><span>{t("about.fact2")}</span><strong>Italy</strong></div>
+          <div><span>{t("about.fact1")}</span><strong>Controlled</strong></div>
+          <div><span>{t("about.fact2")}</span><strong>Aseptic</strong></div>
           <div><span>{t("about.fact3")}</span><strong>B2B Export</strong></div>
         </div>
       </Reveal>
 
       <Reveal className="location-card">
-        <span className="location-card__index">GREENART / 45°48&apos;N</span>
+        <span className="location-card__index">GREENART / CONTROLLED SYSTEM</span>
         <div className="location-card__map" aria-hidden="true">
           <span className="location-card__point" />
           <span className="location-card__axis location-card__axis--x" />
           <span className="location-card__axis location-card__axis--y" />
         </div>
         <div className="location-card__footer">
-          <strong>NEBBIUNO</strong>
+          <strong>PREMIUM PROCESS</strong>
           <span>{t("about.location")}</span>
         </div>
       </Reveal>

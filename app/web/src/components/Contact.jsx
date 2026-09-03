@@ -15,17 +15,17 @@ export default function Contact() {
 
         <div className="contact-list">
           <a href="mailto:info@greenart.tech">info@greenart.tech</a>
-          <span>Nebbiuno · Piedmont · Italy</span>
+          <span>International B2B</span>
           <span>{t("contact.scope")}</span>
         </div>
       </Reveal>
 
       <Reveal className="contact-card">
-        <span className="contact-card__label">GREENART / NEBBIUNO</span>
+        <span className="contact-card__label">GREENART / B2B</span>
         <div className="contact-card__coordinate">
-          <strong>45°48&apos;N</strong>
+          <strong>EXPORT</strong>
           <i />
-          <strong>8°32&apos;E</strong>
+          <strong>PREMIUM</strong>
         </div>
         <div className="contact-card__footer">
           <span>{t("contact.visual")}</span>

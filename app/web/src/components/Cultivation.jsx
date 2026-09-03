@@ -16,7 +16,7 @@ export default function Cultivation() {
         <div className="cultivation-visual__label">
           <span>LIGHT CANNABIS</span>
           <strong>CONTROLLED<br />CULTIVATION</strong>
-          <small>NEBBIUNO · ITALY</small>
+          <small>PREMIUM · INTERNATIONAL B2B</small>
         </div>
       </Reveal>
 

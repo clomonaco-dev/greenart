@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import logo from "@/assets/logo.jpeg";
 import { useLanguage } from "./LanguageProvider";
 
 const navItems = [
@@ -28,10 +27,6 @@ export default function Header() {
 
   return (
     <header className="site-header">
-      <a className="brand" href="/" aria-label="GreenArt home" onClick={closeMenu}>
-        <img src={logo.src} alt="GreenArt" />
-      </a>
-
       <button
         className="menu-toggle"
         type="button"

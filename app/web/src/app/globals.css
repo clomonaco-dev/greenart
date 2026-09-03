@@ -315,8 +315,7 @@ img {
 
 /* SITE SYSTEM */
 
-.brand-logo-on-light,
-.brand img {
+.brand-logo-on-light {
   filter: invert(1) grayscale(1) contrast(1.08);
   mix-blend-mode: multiply;
 }
@@ -330,39 +329,28 @@ img {
   min-height: var(--header-height);
   padding: 0 clamp(20px, 3vw, 48px);
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: 24px;
+  gap: 28px;
   background: rgba(247, 245, 239, .86);
   border-bottom: 1px solid rgba(23, 27, 24, .08);
   backdrop-filter: blur(22px) saturate(115%);
 }
 
-.brand {
-  width: 150px;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-}
-
-.brand img {
-  width: 150px;
-}
-
 .site-nav {
+  grid-column: 2;
   justify-self: center;
   display: flex;
   align-items: center;
-  gap: clamp(9px, .9vw, 16px);
+  gap: clamp(12px, 1vw, 18px);
 }
 
 .site-nav a {
   position: relative;
   color: #6f746d;
-  font-size: 8.5px;
-  font-weight: 600;
-  letter-spacing: .105em;
+  font-size: 10.5px;
+  font-weight: 650;
+  letter-spacing: .075em;
   white-space: nowrap;
   transition: color .2s ease;
 }
@@ -391,7 +379,7 @@ img {
 }
 
 .site-nav .nav-cta {
-  padding: 10px 12px;
+  padding: 11px 14px;
   border: 1px solid var(--line-strong);
   color: var(--ink);
 }
@@ -414,14 +402,19 @@ img {
 }
 
 .language-switcher button {
-  padding: 5px 3px;
+  padding: 6px 4px;
   border: 0;
-  color: #979b94;
+  color: #858b84;
   background: transparent;
   cursor: pointer;
-  font-size: 8.5px;
-  font-weight: 600;
-  letter-spacing: .1em;
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: .08em;
+}
+
+.language-switcher--desktop {
+  grid-column: 3;
+  justify-self: end;
 }
 
 .language-switcher button.active,
@@ -434,6 +427,8 @@ img {
 }
 
 .menu-toggle {
+  grid-column: 3;
+  justify-self: end;
   display: none;
   width: 40px;
   height: 40px;
@@ -708,17 +703,6 @@ img {
   max-width: 790px;
 }
 
-.hero__brand-frame {
-  width: min(410px, 70vw);
-  margin: 2px 0 31px;
-  padding: 3px 0;
-  overflow: hidden;
-}
-
-.hero__logo {
-  width: 100%;
-}
-
 .hero h1 {
   max-width: 800px;
   margin-bottom: 25px;
@@ -747,96 +731,70 @@ img {
   justify-content: center;
 }
 
-.hero__specimen {
+.hero__logo-stage {
   position: relative;
-  width: min(430px, 34vw);
-  min-width: 350px;
-  aspect-ratio: .78;
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(23,27,24,.13);
-  border-radius: 48% 52% 48% 52% / 39% 40% 60% 61%;
+  width: min(520px, 38vw);
+  min-width: 390px;
+  aspect-ratio: 1.38;
+  padding: clamp(26px, 2.4vw, 40px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
   background:
-    radial-gradient(circle at 52% 42%, rgba(255,255,255,.72), transparent 20%),
-    radial-gradient(circle at 50% 50%, rgba(120,133,111,.2), rgba(218,224,213,.45) 48%, rgba(255,255,255,.08) 70%);
-  box-shadow: inset 0 0 80px rgba(255,255,255,.25), var(--shadow-soft);
+    radial-gradient(circle at 72% 18%, rgba(255,255,255,.09), transparent 31%),
+    linear-gradient(145deg, #0a0c0b 0%, #111512 56%, #1a201b 100%);
+  border: 1px solid rgba(255,255,255,.12);
+  box-shadow: 0 32px 80px rgba(20,27,22,.18);
 }
 
-.hero__specimen::before,
-.hero__specimen::after {
+.hero__logo-stage::before {
   content: "";
   position: absolute;
-  border: 1px solid rgba(23,27,24,.09);
-  border-radius: inherit;
+  inset: 14px;
+  border: 1px solid rgba(255,255,255,.075);
+  pointer-events: none;
 }
 
-.hero__specimen::before { inset: 22px; }
-.hero__specimen::after { inset: 48px; border-color: rgba(79,95,83,.13); }
-
-.hero__specimen-code {
+.hero__logo-stage::after {
+  content: "";
   position: absolute;
-  top: 37px;
-  left: 50%;
-  z-index: 2;
-  color: rgba(23,27,24,.48);
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: .18em;
-  transform: translateX(-50%);
+  width: 58%;
+  height: 1px;
+  right: -8%;
+  top: 23%;
+  background: linear-gradient(90deg, transparent, rgba(205,213,205,.42), transparent);
+  transform: rotate(-28deg);
 }
 
-.hero__specimen-core {
+.hero__logo {
   position: relative;
   z-index: 2;
-  text-align: center;
-}
-
-.hero__specimen-core span,
-.hero__specimen-core small,
-.hero__specimen-core strong {
+  width: 100%;
+  height: auto;
   display: block;
+  object-fit: contain;
 }
 
-.hero__specimen-core span {
-  margin-bottom: 9px;
-  color: var(--sage-deep);
-  font-size: 10px;
-  letter-spacing: .2em;
-}
-
-.hero__specimen-core strong {
-  font-family: "Iowan Old Style", Baskerville, Georgia, serif;
-  font-size: clamp(36px, 4vw, 54px);
-  font-weight: 400;
-  letter-spacing: .02em;
-}
-
-.hero__specimen-core small {
-  margin-top: 12px;
-  color: var(--muted);
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: .22em;
-}
-
-.hero__specimen-orbit {
+.hero__logo-stage-kicker,
+.hero__logo-stage-meta {
   position: absolute;
-  left: 50%;
-  border: 1px solid rgba(23,27,24,.12);
-  border-radius: 50%;
-  transform: translateX(-50%) rotate(-12deg);
+  z-index: 3;
+  color: rgba(229,233,228,.62);
+  font-size: 8px;
+  font-weight: 650;
+  letter-spacing: .18em;
 }
 
-.hero__specimen-orbit--one {
-  width: 118%;
-  height: 34%;
+.hero__logo-stage-kicker {
+  top: 22px;
+  left: 26px;
 }
 
-.hero__specimen-orbit--two {
-  width: 102%;
-  height: 55%;
-  transform: translateX(-50%) rotate(56deg);
-  border-color: rgba(153,134,109,.18);
+.hero__logo-stage-meta {
+  right: 26px;
+  bottom: 21px;
+  text-align: right;
 }
 
 .hero__facts {
@@ -2093,10 +2051,6 @@ img {
 }
 
 @media (max-width: 1380px) {
-  .site-header {
-    grid-template-columns: auto 1fr auto;
-  }
-
   .menu-toggle {
     display: block;
     justify-self: end;
@@ -2172,13 +2126,14 @@ img {
 
   .hero__art {
     position: absolute;
-    right: -90px;
-    bottom: -100px;
-    opacity: .38;
+    right: -110px;
+    bottom: -72px;
+    opacity: .22;
   }
 
-  .hero__specimen {
-    width: 480px;
+  .hero__logo-stage {
+    width: 520px;
+    min-width: 520px;
   }
 
   .hero__line {
@@ -2225,11 +2180,6 @@ img {
     padding-inline: 18px;
   }
 
-  .brand,
-  .brand img {
-    width: 130px;
-  }
-
   .section {
     min-height: auto;
     padding: 90px 22px;
@@ -2238,11 +2188,6 @@ img {
   .hero {
     min-height: 100svh;
     padding: calc(var(--header-height) + 50px) 22px 168px;
-  }
-
-  .hero__brand-frame {
-    width: min(330px, 77vw);
-    margin-bottom: 25px;
   }
 
   .hero h1 {
@@ -2263,13 +2208,19 @@ img {
   }
 
   .hero__art {
-    right: -210px;
-    bottom: -112px;
+    right: -245px;
+    bottom: -80px;
+    opacity: .18;
   }
 
-  .hero__specimen {
-    width: 430px;
-    min-width: 430px;
+  .hero__logo-stage {
+    width: 470px;
+    min-width: 470px;
+  }
+
+  .hero__logo-stage-kicker,
+  .hero__logo-stage-meta {
+    font-size: 7px;
   }
 
   .hero__facts {
