@@ -4,42 +4,10 @@ import { useLanguage } from "./LanguageProvider";
 import Reveal from "./Reveal";
 
 const mailLabels = {
-  en: {
-    subject: "GreenArt B2B offer request",
-    company: "Company",
-    name: "Contact",
-    email: "Email",
-    country: "Country",
-    business: "Business type",
-    message: "Message",
-  },
-  es: {
-    subject: "Solicitud de oferta B2B GreenArt",
-    company: "Empresa",
-    name: "Contacto",
-    email: "Email",
-    country: "País",
-    business: "Tipo de negocio",
-    message: "Mensaje",
-  },
-  it: {
-    subject: "Richiesta offerta B2B GreenArt",
-    company: "Azienda",
-    name: "Referente",
-    email: "Email",
-    country: "Paese",
-    business: "Tipo attività",
-    message: "Messaggio",
-  },
-  de: {
-    subject: "GreenArt B2B-Angebotsanfrage",
-    company: "Unternehmen",
-    name: "Ansprechpartner",
-    email: "E-Mail",
-    country: "Land",
-    business: "Geschäftsart",
-    message: "Nachricht",
-  },
+  en: { subject: "GreenArt B2B offer request", company: "Company", name: "Contact", email: "Email", country: "Destination market", business: "Business type", volume: "Indicative volume", message: "Requirements" },
+  es: { subject: "Solicitud de oferta B2B GreenArt", company: "Empresa", name: "Contacto", email: "Email", country: "Mercado de destino", business: "Tipo de negocio", volume: "Volumen indicativo", message: "Necesidades" },
+  it: { subject: "Richiesta offerta B2B GreenArt", company: "Azienda", name: "Referente", email: "Email", country: "Mercato di destinazione", business: "Tipo attività", volume: "Volume indicativo", message: "Esigenze" },
+  de: { subject: "GreenArt B2B-Angebotsanfrage", company: "Unternehmen", name: "Ansprechpartner", email: "E-Mail", country: "Zielmarkt", business: "Geschäftsart", volume: "Ungefähres Volumen", message: "Anforderungen" },
 };
 
 export default function OfferForm() {
@@ -57,6 +25,7 @@ export default function OfferForm() {
       `${labels.email}: ${data.get("email") || ""}`,
       `${labels.country}: ${data.get("country") || ""}`,
       `${labels.business}: ${data.get("business") || ""}`,
+      `${labels.volume}: ${data.get("volume") || ""}`,
       "",
       `${labels.message}:`,
       data.get("message") || "",
@@ -73,6 +42,12 @@ export default function OfferForm() {
         <p className="eyebrow">{t("offer.kicker")}</p>
         <h2>{t("offer.title")}</h2>
         <p>{t("offer.text")}</p>
+
+        <div className="offer-note">
+          <span>GREENART / B2B</span>
+          <strong>{t("offer.noteTitle")}</strong>
+          <p>{t("offer.noteText")}</p>
+        </div>
       </Reveal>
 
       <Reveal as="form" className="offer-form" onSubmit={submit}>
@@ -96,13 +71,18 @@ export default function OfferForm() {
         <div className="form-row">
           <div className="form-field">
             <label htmlFor="country">{t("form.country")}</label>
-            <input id="country" name="country" type="text" />
+            <input id="country" name="country" type="text" required />
           </div>
 
           <div className="form-field">
             <label htmlFor="business">{t("form.business")}</label>
             <input id="business" name="business" type="text" />
           </div>
+        </div>
+
+        <div className="form-field">
+          <label htmlFor="volume">{t("form.volume")}</label>
+          <input id="volume" name="volume" type="text" />
         </div>
 
         <div className="form-field">

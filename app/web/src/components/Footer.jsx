@@ -8,9 +8,13 @@ export default function Footer() {
 
   return (
     <footer className="site-footer">
-      <div>
-        <img src={logo.src} alt="GreenArt" className="brand-logo-on-white" />
-        <p>© {new Date().getFullYear()} GreenArt</p>
+      <div className="site-footer__brand">
+        <img src={logo.src} alt="GreenArt" className="brand-logo-on-light" />
+        <p>© {new Date().getFullYear()} GreenArt · Nebbiuno, Italy</p>
+      </div>
+
+      <div className="site-footer__statement">
+        <span>{t("footer.statement")}</span>
       </div>
 
       <div className="site-footer__links">

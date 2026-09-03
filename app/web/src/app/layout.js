@@ -3,11 +3,11 @@ import { LanguageProvider } from "@/components/LanguageProvider";
 
 export const metadata = {
   title: {
-    default: "GreenArt",
+    default: "GreenArt | Controlled Cultivation",
     template: "%s | GreenArt",
   },
   description:
-    "GreenArt — Technology, cultivation, quality and international B2B partnerships.",
+    "GreenArt — premium controlled light cannabis cultivation in Nebbiuno, Italy, developed for selected international B2B partners.",
 };
 
 export default function RootLayout({ children }) {

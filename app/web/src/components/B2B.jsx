@@ -9,9 +9,18 @@ export default function B2B() {
   return (
     <section className="section section--b2b" id="b2b">
       <Reveal className="b2b-box">
+        <div className="b2b-box__index">GREENART / INTERNATIONAL</div>
         <p className="eyebrow">{t("b2b.kicker")}</p>
         <h2>{t("b2b.title")}</h2>
         <p>{t("b2b.text")}</p>
+
+        <div className="b2b-markets" aria-label={t("b2b.marketsLabel")}>
+          <span>EUROPE</span>
+          <i />
+          <span>SELECTED MARKETS</span>
+          <i />
+          <span>PROFESSIONAL PARTNERS</span>
+        </div>
 
         <div className="b2b-box__actions">
           <a href="/request-b2b-offer" className="button button--primary">
