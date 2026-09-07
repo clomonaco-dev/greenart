@@ -259,6 +259,101 @@ img {
   border-bottom: 1px solid rgba(255,255,255,.35);
 }
 
+.intro__message--premium {
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(16px, 1.6vw, 22px);
+  font-weight: 400;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+}
+
+.intro__message--headline,
+.intro__message--manifesto {
+  width: min(1050px, 90vw);
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.22;
+}
+
+.intro__message--headline strong {
+  display: block;
+  font-size: clamp(29px, 4.4vw, 60px);
+  font-weight: 300;
+  letter-spacing: .08em;
+}
+
+.intro__message--standards {
+  width: min(920px, 88vw);
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(17px, 1.8vw, 24px);
+  line-height: 1.7;
+  letter-spacing: .035em;
+}
+
+.intro__message--manifesto strong {
+  display: block;
+  font-size: clamp(24px, 3.2vw, 44px);
+  font-weight: 300;
+  letter-spacing: .035em;
+}
+
+.intro__signature {
+  position: absolute;
+  z-index: 3;
+  width: min(900px, 90vw);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(22px) scale(.985);
+  transition: opacity 1.25s ease, transform 1.25s ease;
+  pointer-events: none;
+}
+
+.intro__signature.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.intro__signature > strong {
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(44px, 7.2vw, 96px);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: .19em;
+  text-indent: .19em;
+}
+
+.intro__signature > span {
+  margin-top: 20px;
+  color: #cfd4cd;
+  font-family: "Iowan Old Style", Baskerville, Georgia, serif;
+  font-size: clamp(18px, 2vw, 27px);
+  font-style: italic;
+  letter-spacing: .035em;
+}
+
+.intro__signature-button {
+  margin-top: 48px;
+  padding: 17px 30px;
+  border: 1px solid rgba(255,255,255,.32);
+  color: #fff;
+  background: transparent;
+  cursor: pointer;
+  font-size: 10px;
+  letter-spacing: .24em;
+  transition: background .25s ease, color .25s ease, border-color .25s ease;
+}
+
+.intro__signature-button:hover {
+  color: #000;
+  background: #fff;
+  border-color: #fff;
+}
+
+
 .intro__continue {
   pointer-events: auto;
   padding: 18px 32px;
@@ -2354,6 +2449,42 @@ img {
 
   .intro__message--b2b strong {
     font-size: 36px;
+  }
+
+  .intro__message--headline strong {
+    font-size: clamp(27px, 8.4vw, 38px);
+    letter-spacing: .045em;
+  }
+
+  .intro__message--premium {
+    font-size: 13px;
+    line-height: 1.65;
+    letter-spacing: .18em;
+  }
+
+  .intro__message--standards {
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .intro__message--manifesto strong {
+    font-size: clamp(24px, 7.2vw, 34px);
+    line-height: 1.35;
+  }
+
+  .intro__signature > strong {
+    font-size: clamp(40px, 13vw, 60px);
+    letter-spacing: .13em;
+    text-indent: .13em;
+  }
+
+  .intro__signature > span {
+    max-width: 88vw;
+    font-size: 18px;
+  }
+
+  .intro__signature-button {
+    margin-top: 38px;
   }
 }
 

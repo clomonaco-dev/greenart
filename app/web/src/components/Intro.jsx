@@ -4,6 +4,15 @@ import { useEffect, useRef, useState } from "react";
 import logo from "@/assets/logo.jpeg";
 import { useLanguage } from "./LanguageProvider";
 
+const PHASE_ORDER = [
+  "premium",
+  "precision",
+  "excellence",
+  "standards",
+  "uncompromised",
+  "signature",
+];
+
 export default function Intro() {
   const { t } = useLanguage();
   const [phase, setPhase] = useState("waiting");
@@ -35,19 +44,21 @@ export default function Intro() {
     timersRef.current = [];
 
     setSoundOn(withSound);
-    setPhase("logo");
+    setPhase("premium");
 
     if (withSound && audioRef.current) {
       audioRef.current.volume = 0.38;
       audioRef.current.play().catch(() => setSoundOn(false));
     }
 
-    queue(() => setPhase("description"), 4750);
-    queue(() => setPhase("b2b"), 9500);
+    queue(() => setPhase("precision"), 2800);
+    queue(() => setPhase("excellence"), 5700);
+    queue(() => setPhase("standards"), 8900);
+    queue(() => setPhase("uncompromised"), 12200);
     queue(() => {
-      setPhase("continue");
+      setPhase("signature");
       stopAudio();
-    }, 14500);
+    }, 15500);
   }
 
   function stopAudio() {
@@ -85,6 +96,22 @@ export default function Intro() {
     }
   }
 
+  function messageClass(messagePhase, modifier = "") {
+    const currentIndex = PHASE_ORDER.indexOf(phase);
+    const messageIndex = PHASE_ORDER.indexOf(messagePhase);
+    const isVisible = phase === messagePhase;
+    const isOut = currentIndex > messageIndex;
+
+    return [
+      "intro__message",
+      modifier,
+      isVisible ? "is-visible" : "",
+      isOut ? "is-out" : "",
+    ]
+      .filter(Boolean)
+      .join(" ");
+  }
+
   return (
     <div className={`intro ${hidden ? "is-hidden" : ""}`} aria-hidden={hidden}>
       <div className="intro__glow" />
@@ -103,55 +130,40 @@ export default function Intro() {
         </>
       )}
 
-      <div className="intro__sequence">
-        <img
-          src={logo.src}
-          alt="GreenArt"
-          className={[
-            "intro__logo",
-            phase === "logo" ? "is-visible" : "",
-            ["description", "b2b", "continue"].includes(phase) ? "is-out" : "",
-          ].join(" ")}
-        />
-
-        <div
-          className={[
-            "intro__message",
-            phase === "description" ? "is-visible" : "",
-            ["b2b", "continue"].includes(phase) ? "is-out" : "",
-          ].join(" ")}
-        >
-          <p>{t("hero.short")}</p>
+      <div className="intro__sequence" aria-live="polite">
+        <div className={messageClass("premium", "intro__message--premium")}>
+          <p>{t("intro.premium")}</p>
         </div>
 
-        <div
-          className={[
-            "intro__message intro__message--b2b",
-            phase === "b2b" ? "is-visible" : "",
-            phase === "continue" ? "is-out" : "",
-          ].join(" ")}
-        >
-          <strong>{t("hero.b2bTitle")}</strong>
-          <p>{t("hero.b2bText")}</p>
-          <p>
-            {t("hero.register")} {" "}
-            <a href="mailto:info@greenart.tech">info@greenart.tech</a>
-          </p>
+        <div className={messageClass("precision", "intro__message--headline")}>
+          <strong>{t("intro.precision")}</strong>
         </div>
 
-        <button
-          className={`intro__continue ${phase === "continue" ? "is-visible" : ""}`}
-          type="button"
-          onClick={closeIntro}
-        >
-          {t("intro.continue")}
-        </button>
+        <div className={messageClass("excellence")}>
+          <p>{t("intro.excellence")}</p>
+        </div>
+
+        <div className={messageClass("standards", "intro__message--standards")}>
+          <p>{t("intro.standards")}</p>
+        </div>
+
+        <div className={messageClass("uncompromised", "intro__message--manifesto")}>
+          <strong>{t("intro.uncompromised")}</strong>
+        </div>
+
+        <div className={`intro__signature ${phase === "signature" ? "is-visible" : ""}`}>
+          <strong>GREENART</strong>
+          <span>{t("intro.tagline")}</span>
+          <button className="intro__signature-button" type="button" onClick={closeIntro}>
+            {t("intro.continue")}
+          </button>
+        </div>
       </div>
 
       {phase !== "waiting" && (
         <div className="intro__tools is-visible">
           <button type="button" onClick={toggleSound}>
-            {soundOn ? "SOUND ON" : "SOUND OFF"}
+            {soundOn ? t("intro.soundOn") : t("intro.soundOff")}
           </button>
           <button type="button" onClick={closeIntro}>
             {t("intro.skip")}
