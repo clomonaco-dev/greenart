@@ -3025,7 +3025,7 @@ img {
   display: none;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 1380px) {
   body.nav-open {
     overflow: hidden;
   }
@@ -3495,6 +3495,85 @@ img {
   .offer-page .site-nav {
     background: linear-gradient(180deg, #080909 0%, #000 100%);
     border-left-color: rgba(255,255,255,.10);
+    box-shadow: -24px 24px 70px rgba(0,0,0,.44);
+  }
+
+  .offer-page .site-nav > a:not(.nav-cta) {
+    color: #c2c7c9;
+    border-bottom-color: rgba(255,255,255,.10);
+  }
+
+  .offer-page .site-nav > a:not(.nav-cta)::before {
+    color: #757c7f;
+  }
+
+  .offer-page .site-nav > a:not(.nav-cta).active,
+  .offer-page .site-nav > a:not(.nav-cta).active::before {
+    color: #fff;
+  }
+
+  .offer-page .site-nav .nav-cta {
+    color: #050505;
+    background: #d9dddf;
+    border-color: #d9dddf;
+  }
+
+  .offer-page .site-nav .nav-cta:hover,
+  .offer-page .site-nav .nav-cta.active {
+    color: #000;
+    background: #f2f4f4;
+    border-color: #f2f4f4;
+  }
+
+  .offer-page .language-switcher--mobile {
+    border-top-color: rgba(255,255,255,.10);
+  }
+
+  .offer-page .language-switcher--mobile button {
+    color: #858d90;
+  }
+
+  .offer-page .language-switcher--mobile button.active,
+  .offer-page .language-switcher--mobile button:hover {
+    color: #fff;
+  }
+
+  .offer-page .nav-backdrop {
+    background: rgba(0,0,0,.42);
+  }
+}
+
+
+/* =========================================================
+   B2B OFFER — TABLET / HAMBURGER CONSISTENCY
+   Use the exact same black right-side drawer from phone up to
+   the desktop breakpoint, avoiding the old centered iPad menu.
+   ========================================================= */
+@media (min-width: 721px) and (max-width: 1380px) {
+  .offer-page .site-header {
+    grid-template-columns: auto 1fr auto;
+    padding-inline: clamp(22px, 3vw, 38px);
+    background: #000;
+  }
+
+  .offer-page .site-header__brand {
+    grid-column: 1;
+    justify-self: start;
+    width: 112px;
+  }
+
+  .offer-page .menu-toggle {
+    grid-column: 3;
+    justify-self: end;
+  }
+
+  .offer-page .site-nav {
+    right: 0;
+    left: auto;
+    width: min(88vw, 390px);
+    background: linear-gradient(180deg, #080909 0%, #000 100%);
+    border-top: 0;
+    border-left: 1px solid rgba(255,255,255,.10);
     box-shadow: -24px 24px 70px rgba(0,0,0,.44);
   }
 
