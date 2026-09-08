@@ -2,13 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="robots" content="noindex,nofollow" />
-    <title>Netlify Forms</title>
+    <title>GreenArt Netlify Forms</title>
   </head>
   <body>
     <!--
-      Static Netlify Forms blueprint for Next.js Runtime.
-      Keep these field names in sync with src/components/OfferForm.jsx.
+      Static form blueprint for Netlify form detection.
+      The visible Next.js form submits these same fields via AJAX.
     -->
     <form
       name="greenart-b2b-request"
@@ -26,6 +25,10 @@
       <input name="business" />
       <input name="volume" />
       <textarea name="message"></textarea>
+      <input name="privacy_acknowledged" />
+      <input name="privacy_version" />
+      <input name="privacy_acknowledged_at" />
+      <input name="privacy_language" />
     </form>
   </body>
 </html>

@@ -1,9 +1,11 @@
 "use client";
 
 import { useLanguage } from "./LanguageProvider";
+import { privacyTranslations } from "@/data/privacyTranslations";
 
 export default function Footer() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
+  const privacyCopy = privacyTranslations[language] || privacyTranslations.en;
 
   return (
     <footer className="site-footer">
@@ -17,8 +19,7 @@ export default function Footer() {
 
       <div className="site-footer__links">
         <a href="/">{t("nav.intro")}</a>
-        {/* FIRST VERSION: contact page kept in the project but hidden from navigation. */}
-        {/* <a href="/contact">{t("footer.contact")}</a> */}
+        <a href="/privacy-policy">{privacyCopy.navLabel}</a>
         <a href="mailto:info@greenart.tech">info@greenart.tech</a>
       </div>
     </footer>

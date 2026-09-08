@@ -3635,3 +3635,361 @@ img {
   border: 0;
   white-space: nowrap;
 }
+
+/* =========================================================
+   GREENART PRIVACY — B2B GATE + PUBLIC POLICY
+   ========================================================= */
+
+.privacy-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(165, 172, 175, .15), transparent 28rem),
+    rgba(0, 0, 0, .82);
+  backdrop-filter: blur(16px);
+}
+
+.privacy-gate__panel {
+  width: min(660px, 100%);
+  padding: clamp(28px, 5vw, 54px);
+  color: #252a2b;
+  border: 1px solid rgba(255,255,255,.7);
+  background:
+    linear-gradient(145deg, rgba(249,250,250,.98), rgba(223,227,228,.98));
+  box-shadow:
+    0 42px 120px rgba(0,0,0,.42),
+    inset 0 1px 0 rgba(255,255,255,.9);
+}
+
+.privacy-gate__eyebrow {
+  margin: 0 0 22px;
+  color: #747d80;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .26em;
+}
+
+.privacy-gate__panel h2 {
+  max-width: 540px;
+  margin: 0;
+  color: #252a2b;
+  font-family: "Iowan Old Style", Baskerville, Georgia, serif;
+  font-size: clamp(30px, 5vw, 46px);
+  font-weight: 400;
+  line-height: 1.08;
+}
+
+.privacy-gate__body {
+  max-width: 560px;
+  margin: 24px 0 30px;
+  color: #626b6e;
+  font-size: 14px;
+  line-height: 1.78;
+}
+
+.privacy-gate__check {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 18px 0;
+  color: #33393b;
+  border-top: 1px solid rgba(41,47,49,.14);
+  border-bottom: 1px solid rgba(41,47,49,.14);
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.privacy-gate__check input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.privacy-gate__checkmark {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  border: 1px solid #7f888b;
+  background: rgba(255,255,255,.6);
+}
+
+.privacy-gate__check input:focus-visible + .privacy-gate__checkmark {
+  outline: 2px solid #252a2b;
+  outline-offset: 3px;
+}
+
+.privacy-gate__check input:checked + .privacy-gate__checkmark {
+  background: #252a2b;
+  border-color: #252a2b;
+}
+
+.privacy-gate__check input:checked + .privacy-gate__checkmark::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 5px;
+  height: 9px;
+  border-right: 1.5px solid #fff;
+  border-bottom: 1.5px solid #fff;
+  transform: rotate(45deg);
+}
+
+.privacy-gate__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 30px;
+}
+
+.privacy-gate__policy-link {
+  color: #4f585b;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  text-decoration: none;
+  transition: color .2s ease;
+}
+
+.privacy-gate__policy-link:hover {
+  color: #111;
+}
+
+.privacy-gate__continue {
+  min-width: 150px;
+}
+
+.privacy-gate .button:disabled,
+.offer-page .offer-form .button:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.form-privacy-status {
+  display: grid;
+  grid-template-columns: 9px 1fr;
+  gap: 11px;
+  align-items: start;
+  margin: 6px 0 22px;
+  padding: 16px 0;
+  border-top: 1px solid var(--offer-line);
+  border-bottom: 1px solid var(--offer-line);
+}
+
+.form-privacy-status > span {
+  width: 7px;
+  height: 7px;
+  margin-top: 6px;
+  border: 1px solid #8d9699;
+  border-radius: 50%;
+}
+
+.form-privacy-status > span.is-accepted {
+  background: #252a2b;
+  border-color: #252a2b;
+}
+
+.form-privacy-status p {
+  margin: 0 0 6px;
+  color: #6d7578;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.form-privacy-status a {
+  color: #343a3c;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  text-decoration: none;
+}
+
+.form-privacy-status a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Public privacy page uses the same silver/black visual language as the B2B offer. */
+.privacy-page .inner-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 10% 8%, rgba(255,255,255,.8), transparent 28rem),
+    linear-gradient(145deg, #f2f4f4 0%, #e2e5e6 55%, #d8dcdd 100%);
+}
+
+.privacy-policy {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 160px 0 100px;
+  color: #252a2b;
+}
+
+.privacy-policy__hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+  column-gap: 80px;
+  align-items: end;
+  padding-bottom: 58px;
+  border-bottom: 1px solid rgba(41,47,49,.17);
+}
+
+.privacy-policy__hero .eyebrow {
+  grid-column: 1 / -1;
+  margin-bottom: 20px;
+  color: #727b7e;
+}
+
+.privacy-policy__hero h1 {
+  margin: 0;
+  max-width: 680px;
+  font-family: "Iowan Old Style", Baskerville, Georgia, serif;
+  font-size: clamp(42px, 6vw, 74px);
+  font-weight: 400;
+  line-height: .98;
+  letter-spacing: -.025em;
+}
+
+.privacy-policy__version {
+  align-self: start;
+  justify-self: end;
+  margin: 8px 0 0;
+  color: #70797c;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.privacy-policy__intro {
+  grid-column: 1 / -1;
+  max-width: 760px;
+  margin: 36px 0 0;
+  color: #60696c;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.privacy-policy__content {
+  width: min(860px, 100%);
+  margin: 0 auto;
+  padding-top: 24px;
+}
+
+.privacy-policy__section {
+  padding: 42px 0;
+  border-bottom: 1px solid rgba(41,47,49,.13);
+}
+
+.privacy-policy__section h2 {
+  margin: 0 0 18px;
+  color: #252a2b;
+  font-family: "Iowan Old Style", Baskerville, Georgia, serif;
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+.privacy-policy__section p,
+.privacy-policy__section li {
+  color: #60696c;
+  font-size: 14px;
+  line-height: 1.86;
+}
+
+.privacy-policy__section p {
+  margin: 0 0 14px;
+}
+
+.privacy-policy__section ul {
+  margin: 0 0 18px;
+  padding-left: 20px;
+}
+
+.privacy-policy__section li + li {
+  margin-top: 7px;
+}
+
+.privacy-policy__note {
+  margin-top: 20px !important;
+  padding: 17px 19px;
+  color: #434a4c !important;
+  border-left: 2px solid #949da0;
+  background: rgba(255,255,255,.38);
+}
+
+.privacy-policy__section .text-link {
+  display: inline-block;
+  margin-top: 3px;
+  color: #303638;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 720px) {
+  .privacy-gate {
+    align-items: end;
+    padding: 0;
+  }
+
+  .privacy-gate__panel {
+    max-height: 92vh;
+    overflow-y: auto;
+    padding: 30px 22px 26px;
+  }
+
+  .privacy-gate__panel h2 {
+    font-size: 34px;
+  }
+
+  .privacy-gate__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .privacy-gate__continue {
+    width: 100%;
+  }
+
+  .privacy-policy {
+    width: min(100% - 32px, 1180px);
+    padding: 125px 0 72px;
+  }
+
+  .privacy-policy__hero {
+    display: block;
+    padding-bottom: 40px;
+  }
+
+  .privacy-policy__hero h1 {
+    font-size: 44px;
+    line-height: 1.02;
+  }
+
+  .privacy-policy__version {
+    margin-top: 20px;
+  }
+
+  .privacy-policy__intro {
+    margin-top: 26px;
+    font-size: 15px;
+  }
+
+  .privacy-policy__section {
+    padding: 34px 0;
+  }
+}

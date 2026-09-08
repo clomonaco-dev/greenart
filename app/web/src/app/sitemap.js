@@ -3,6 +3,7 @@ export default function sitemap() {
   const routes = [
     "",
     "/request-b2b-offer",
+    "/privacy-policy",
 
     // FIRST VERSION: pages kept in the source code but excluded from the
     // public sitemap until they are enabled in a later release.
