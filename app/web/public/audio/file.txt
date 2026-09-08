@@ -1,0 +1,1 @@
+ffmpeg -ss 00:03:10 -i originale.mpeg -t 00:01:30 -map 0:a:0 -c:a copy intro.mp3

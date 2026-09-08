@@ -5,15 +5,18 @@ import { usePathname } from "next/navigation";
 import { useLanguage } from "./LanguageProvider";
 
 const navItems = [
-  ["/", "nav.home"],
-  ["/about", "nav.about"],
-  ["/technology", "nav.technology"],
-  ["/cultivation", "nav.cultivation"],
-  ["/facility", "nav.facility"],
-  ["/products", "nav.products"],
-  ["/quality-compliance", "nav.quality"],
-  ["/b2b-wholesale", "nav.b2b"],
-  ["/contact", "nav.contact"],
+  ["/", "nav.intro"],
+
+  // FIRST VERSION: the following pages are intentionally kept in the codebase
+  // but hidden from the public navigation until a later release.
+  // ["/about", "nav.about"],
+  // ["/technology", "nav.technology"],
+  // ["/cultivation", "nav.cultivation"],
+  // ["/facility", "nav.facility"],
+  // ["/products", "nav.products"],
+  // ["/quality-compliance", "nav.quality"],
+  // ["/b2b-wholesale", "nav.b2b"],
+  // ["/contact", "nav.contact"],
 ];
 
 export default function Header() {

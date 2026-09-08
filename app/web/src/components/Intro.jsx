@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import logo from "@/assets/logo.jpeg";
 import { useLanguage } from "./LanguageProvider";
 
@@ -13,13 +14,25 @@ const PHASE_ORDER = [
   "signature",
 ];
 
+const INTRO_DURATION_MS = 90000;
+
+const PHASE_TIMINGS = {
+  precision: 8000,
+  excellence: 24000,
+  standards: 40000,
+  uncompromised: 60000,
+  signature: 80000,
+};
+
 export default function Intro() {
+  const router = useRouter();
   const { t } = useLanguage();
   const [phase, setPhase] = useState("waiting");
   const [hidden, setHidden] = useState(false);
   const [soundOn, setSoundOn] = useState(true);
   const audioRef = useRef(null);
   const timersRef = useRef([]);
+  const introStartRef = useRef(null);
 
   useEffect(() => {
     document.body.classList.add("intro-open");
@@ -42,31 +55,34 @@ export default function Intro() {
   function startIntro(withSound) {
     timersRef.current.forEach(clearTimeout);
     timersRef.current = [];
+    introStartRef.current = performance.now();
 
     setSoundOn(withSound);
     setPhase("premium");
 
-    if (withSound && audioRef.current) {
-      audioRef.current.volume = 0.38;
-      audioRef.current.play().catch(() => setSoundOn(false));
+    const audio = audioRef.current;
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+
+      if (withSound) {
+        audio.volume = 0.38;
+        audio.play().catch(() => setSoundOn(false));
+      }
     }
 
-    queue(() => setPhase("precision"), 2800);
-    queue(() => setPhase("excellence"), 5700);
-    queue(() => setPhase("standards"), 8900);
-    queue(() => setPhase("uncompromised"), 12200);
-    queue(() => {
-      setPhase("signature");
-      stopAudio();
-    }, 15500);
+    queue(() => setPhase("precision"), PHASE_TIMINGS.precision);
+    queue(() => setPhase("excellence"), PHASE_TIMINGS.excellence);
+    queue(() => setPhase("standards"), PHASE_TIMINGS.standards);
+    queue(() => setPhase("uncompromised"), PHASE_TIMINGS.uncompromised);
+    queue(() => setPhase("signature"), PHASE_TIMINGS.signature);
+    queue(closeIntro, INTRO_DURATION_MS);
   }
 
   function stopAudio() {
     const audio = audioRef.current;
     if (!audio) return;
 
-    // iOS Safari does not reliably support script-controlled volume fades.
-    // Pause and reset immediately so the intro audio can never continue on the Home page.
     audio.pause();
     audio.currentTime = 0;
     setSoundOn(false);
@@ -75,10 +91,15 @@ export default function Intro() {
   function closeIntro() {
     timersRef.current.forEach(clearTimeout);
     timersRef.current = [];
+    introStartRef.current = null;
 
     stopAudio();
     setHidden(true);
     document.body.classList.remove("intro-open");
+
+    // FIRST VERSION: every completed/skipped intro lands directly on B2B OFFER.
+    // `replace` avoids reopening the intro just by pressing the browser Back button.
+    router.replace("/request-b2b-offer");
   }
 
   function toggleSound() {
@@ -90,6 +111,27 @@ export default function Intro() {
 
     if (next) {
       audio.volume = 0.38;
+
+      if (introStartRef.current !== null) {
+        const elapsedSeconds = Math.max(
+          0,
+          (performance.now() - introStartRef.current) / 1000
+        );
+
+        try {
+          if (Number.isFinite(audio.duration) && audio.duration > 0) {
+            audio.currentTime = Math.min(
+              elapsedSeconds,
+              Math.max(0, audio.duration - 0.05)
+            );
+          } else {
+            audio.currentTime = elapsedSeconds;
+          }
+        } catch {
+          // If metadata is not ready yet, playback still starts normally.
+        }
+      }
+
       audio.play().catch(() => setSoundOn(false));
     } else {
       audio.pause();
@@ -112,8 +154,27 @@ export default function Intro() {
       .join(" ");
   }
 
+  function stagedCopy(keys, delays) {
+    return (
+      <strong className="intro__staged-copy">
+        {keys.map((key, index) => (
+          <span
+            className="intro__staged-line"
+            style={{ "--intro-line-delay": `${delays[index] ?? 0}ms` }}
+            key={key}
+          >
+            {t(key)}
+          </span>
+        ))}
+      </strong>
+    );
+  }
+
   return (
-    <div className={`intro ${hidden ? "is-hidden" : ""}`} aria-hidden={hidden}>
+    <div
+      className={`intro ${phase === "waiting" ? "intro--waiting" : ""} ${hidden ? "is-hidden" : ""}`}
+      aria-hidden={hidden}
+    >
       <div className="intro__glow" />
 
       {phase === "waiting" && (
@@ -131,31 +192,47 @@ export default function Intro() {
       )}
 
       <div className="intro__sequence" aria-live="polite">
-        <div className={messageClass("premium", "intro__message--premium")}>
-          <p>{t("intro.premium")}</p>
+        <div className={messageClass("premium", "intro__message--headline")}> 
+          {stagedCopy(["intro.premium"], [0])}
         </div>
 
-        <div className={messageClass("precision", "intro__message--headline")}>
-          <strong>{t("intro.precision")}</strong>
+        <div className={messageClass("precision", "intro__message--headline")}> 
+          {stagedCopy(
+            ["intro.precision.1", "intro.precision.2"],
+            [0, 5000]
+          )}
         </div>
 
-        <div className={messageClass("excellence")}>
-          <p>{t("intro.excellence")}</p>
+        <div className={messageClass("excellence", "intro__message--headline")}> 
+          {stagedCopy(
+            ["intro.excellence.1", "intro.excellence.2"],
+            [0, 5200]
+          )}
         </div>
 
-        <div className={messageClass("standards", "intro__message--standards")}>
-          <p>{t("intro.standards")}</p>
+        <div className={messageClass("standards", "intro__message--headline")}> 
+          {stagedCopy(
+            ["intro.standards.1", "intro.standards.2", "intro.standards.3"],
+            [0, 4500, 9000]
+          )}
         </div>
 
-        <div className={messageClass("uncompromised", "intro__message--manifesto")}>
-          <strong>{t("intro.uncompromised")}</strong>
+        <div className={messageClass("uncompromised", "intro__message--headline")}> 
+          {stagedCopy(
+            [
+              "intro.uncompromised.1",
+              "intro.uncompromised.2",
+              "intro.uncompromised.3",
+            ],
+            [0, 4500, 9000]
+          )}
         </div>
 
         <div className={`intro__signature ${phase === "signature" ? "is-visible" : ""}`}>
           <strong>GREENART</strong>
           <span>{t("intro.tagline")}</span>
           <button className="intro__signature-button" type="button" onClick={closeIntro}>
-            {t("intro.continue")}
+            {t("nav.offer")}
           </button>
         </div>
       </div>
@@ -172,7 +249,7 @@ export default function Intro() {
       )}
 
       <audio ref={audioRef} preload="auto" onEnded={() => setSoundOn(false)}>
-        <source src="/audio/intro.wav" type="audio/wav" />
+        <source src="/audio/intro.mp3" type="audio/mpeg" />
       </audio>
     </div>
   );

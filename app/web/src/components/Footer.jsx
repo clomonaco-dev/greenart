@@ -18,8 +18,9 @@ export default function Footer() {
       </div>
 
       <div className="site-footer__links">
-        <a href="/">{t("footer.home")}</a>
-        <a href="/contact">{t("footer.contact")}</a>
+        <a href="/">{t("nav.intro")}</a>
+        {/* FIRST VERSION: contact page kept in the project but hidden from navigation. */}
+        {/* <a href="/contact">{t("footer.contact")}</a> */}
         <a href="mailto:info@greenart.tech">info@greenart.tech</a>
       </div>
     </footer>
