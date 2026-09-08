@@ -1,6 +1,5 @@
 "use client";
 
-import logo from "@/assets/logo.jpeg";
 import { useLanguage } from "./LanguageProvider";
 
 export default function Footer() {
@@ -9,7 +8,6 @@ export default function Footer() {
   return (
     <footer className="site-footer">
       <div className="site-footer__brand">
-        <img src={logo.src} alt="GreenArt" className="brand-logo-on-light" />
         <p>© {new Date().getFullYear()} GreenArt</p>
       </div>
 
