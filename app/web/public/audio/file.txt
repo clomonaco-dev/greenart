@@ -1,1 +1,3 @@
 ffmpeg -ss 00:03:10 -i originale.mpeg -t 00:01:30 -map 0:a:0 -c:a copy intro.mp3
+
+ffmpeg -i intro.mpeg -af "volume=0.38,afade=t=in:st=0:d=10" intro-fade.mpeg
