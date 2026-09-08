@@ -1,5 +1,6 @@
 import "./globals.css";
 import { LanguageProvider } from "@/components/LanguageProvider";
+import ConsentManager from "@/components/ConsentManager";
 
 export const metadata = {
   title: {
@@ -14,7 +15,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <LanguageProvider>{children}</LanguageProvider>
+        <LanguageProvider>
+          {children}
+          <ConsentManager />
+        </LanguageProvider>
       </body>
     </html>
   );

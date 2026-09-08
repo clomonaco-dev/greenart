@@ -3993,3 +3993,278 @@ img {
     padding: 34px 0;
   }
 }
+
+/* =========================================================
+   Legal documents + consent manager
+   Non-essential GreenArt tracking is opt-in and disabled by default.
+   ========================================================= */
+
+.legal-document__identity {
+  grid-column: 1 / -1;
+  margin: 20px 0 0;
+  color: #454d4f;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.consent-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  padding: 28px;
+  background: rgba(10, 12, 12, .58);
+  backdrop-filter: blur(12px);
+}
+
+.consent-panel {
+  width: min(980px, 100%);
+  padding: 32px 36px 30px;
+  color: #252a2b;
+  border: 1px solid rgba(255,255,255,.62);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(255,255,255,.88), transparent 28rem),
+    linear-gradient(145deg, #f1f3f3 0%, #dfe3e4 100%);
+  box-shadow: 0 30px 90px rgba(0,0,0,.24);
+}
+
+.consent-panel__eyebrow {
+  margin: 0 0 12px;
+  color: #697275;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .18em;
+}
+
+.consent-panel h2 {
+  margin: 0;
+  font-family: "Iowan Old Style", Baskerville, Georgia, serif;
+  font-size: clamp(30px, 4vw, 46px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -.02em;
+}
+
+.consent-panel__body {
+  max-width: 760px;
+  margin: 18px 0 0;
+  color: #5d6669;
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.consent-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 24px;
+  padding: 18px 0;
+  border-top: 1px solid rgba(41,47,49,.16);
+  border-bottom: 1px solid rgba(41,47,49,.16);
+  cursor: pointer;
+}
+
+.consent-option span {
+  display: grid;
+  gap: 5px;
+}
+
+.consent-option strong {
+  color: #303638;
+  font-size: 12px;
+  letter-spacing: .03em;
+}
+
+.consent-option small {
+  color: #747c7f;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.consent-option input {
+  width: 22px;
+  height: 22px;
+  accent-color: #252a2b;
+}
+
+.consent-panel__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin-top: 18px;
+}
+
+.consent-panel__links a {
+  color: #4d5658;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .11em;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.consent-panel__actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.consent-button {
+  min-width: 150px;
+  border: 1px solid #252a2b;
+}
+
+.consent-button--secondary,
+.consent-button--ghost {
+  color: #252a2b;
+  background: transparent;
+}
+
+.consent-button--secondary:hover,
+.consent-button--ghost:hover {
+  color: #fff;
+  background: #252a2b;
+}
+
+.privacy-choices-button {
+  position: fixed;
+  left: 14px;
+  bottom: 14px;
+  z-index: 9000;
+  padding: 8px 10px;
+  color: rgba(255,255,255,.74);
+  border: 1px solid rgba(255,255,255,.24);
+  background: rgba(19,22,22,.82);
+  backdrop-filter: blur(8px);
+  font: inherit;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .11em;
+  cursor: pointer;
+}
+
+.privacy-page .privacy-choices-button,
+.offer-page .privacy-choices-button {
+  color: #4c5456;
+  border-color: rgba(37,42,43,.2);
+  background: rgba(239,242,242,.88);
+}
+
+@media (max-width: 720px) {
+  .consent-layer {
+    align-items: end;
+    padding: 0;
+  }
+
+  .consent-panel {
+    max-height: 92vh;
+    overflow-y: auto;
+    padding: 28px 20px 22px;
+  }
+
+  .consent-panel__actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .consent-button {
+    width: 100%;
+  }
+
+  .privacy-choices-button {
+    left: 10px;
+    bottom: 10px;
+  }
+}
+
+/* Three-choice privacy panel: intro-free, explicit and reversible. */
+.consent-panel--three-choice {
+  width: min(1040px, 100%);
+}
+
+.consent-panel__summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 24px;
+  border: 1px solid rgba(41,47,49,.14);
+  background: rgba(41,47,49,.14);
+}
+
+.consent-panel__summary > div {
+  padding: 18px 20px;
+  background: rgba(245,247,247,.9);
+}
+
+.consent-panel__summary strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #303638;
+  font-size: 11px;
+  letter-spacing: .04em;
+}
+
+.consent-panel__summary p {
+  margin: 0;
+  color: #6b7477;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.consent-panel__actions--three {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.consent-panel__actions--three .consent-button {
+  width: 100%;
+  min-width: 0;
+}
+
+.consent-panel__footnote {
+  margin: 14px 0 0;
+  color: #7a8285;
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.form-privacy-status__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  align-items: center;
+}
+
+.form-privacy-status__links button {
+  appearance: none;
+  padding: 0;
+  color: #343a3c;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.form-privacy-status__links button:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 720px) {
+  .consent-panel__summary,
+  .consent-panel__actions--three {
+    grid-template-columns: 1fr;
+  }
+}

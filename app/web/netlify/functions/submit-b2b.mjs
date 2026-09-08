@@ -1,6 +1,8 @@
 const FORM_NAME = "greenart-b2b-request";
-const PRIVACY_VERSION = "1.0";
+const PRIVACY_VERSION = "3.0";
+const PRIVACY_CHOICE_VERSION = "2.0";
 const ALLOWED_LANGUAGES = new Set(["en", "it", "es", "de"]);
+const ALLOWED_FORM_CHOICES = new Set(["all", "essential"]);
 
 export default async (request) => {
   if (request.method !== "POST") {
@@ -41,21 +43,27 @@ export default async (request) => {
 
   const acknowledged = params.get("privacy_acknowledged") === "true";
   const privacyVersion = params.get("privacy_version");
+  const privacyChoice = params.get("privacy_choice");
+  const privacyChoiceVersion = params.get("privacy_choice_version");
   const privacyLanguage = params.get("privacy_language");
   const acknowledgedAt = params.get("privacy_acknowledged_at");
   const acknowledgedTime = Date.parse(acknowledgedAt || "");
   const now = Date.now();
 
+  // Fail closed: a B2B submission is allowed only after either ALL or
+  // ESSENTIAL. REJECTED/unknown choices are refused server-side too.
   const privacyMetadataValid =
     acknowledged &&
     privacyVersion === PRIVACY_VERSION &&
+    privacyChoiceVersion === PRIVACY_CHOICE_VERSION &&
+    ALLOWED_FORM_CHOICES.has(privacyChoice || "") &&
     ALLOWED_LANGUAGES.has(privacyLanguage || "") &&
     Number.isFinite(acknowledgedTime) &&
     acknowledgedTime <= now + 5 * 60 * 1000;
 
   if (!privacyMetadataValid) {
     return Response.json(
-      { ok: false, error: "Privacy acknowledgement required" },
+      { ok: false, error: "Valid privacy choice required" },
       { status: 400 }
     );
   }

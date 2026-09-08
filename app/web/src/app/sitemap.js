@@ -4,9 +4,10 @@ export default function sitemap() {
     "",
     "/request-b2b-offer",
     "/privacy-policy",
+    "/cookie-policy",
+    "/terms-and-conditions",
 
-    // FIRST VERSION: pages kept in the source code but excluded from the
-    // public sitemap until they are enabled in a later release.
+    // FIRST VERSION: pages kept in source but excluded from the public sitemap.
     // "/about",
     // "/technology",
     // "/cultivation",

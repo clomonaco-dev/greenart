@@ -5,17 +5,8 @@
     <title>GreenArt Netlify Forms</title>
   </head>
   <body>
-    <!--
-      Static form blueprint for Netlify form detection.
-      The visible Next.js form submits these same fields via AJAX.
-    -->
-    <form
-      name="greenart-b2b-request"
-      method="POST"
-      data-netlify="true"
-      data-netlify-honeypot="bot-field"
-      hidden
-    >
+    <!-- Static blueprint required for Netlify form detection in a JS/Next.js app. -->
+    <form name="greenart-b2b-request" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
       <input type="hidden" name="form-name" value="greenart-b2b-request" />
       <input name="bot-field" />
       <input name="company" />
@@ -29,6 +20,18 @@
       <input name="privacy_version" />
       <input name="privacy_acknowledged_at" />
       <input name="privacy_language" />
+      <input name="privacy_choice" />
+      <input name="privacy_choice_version" />
+    </form>
+
+    <!-- Accountability receipt created only after ACCEPT ALL. -->
+    <form name="greenart-tracking-consent" method="POST" data-netlify="true" hidden>
+      <input type="hidden" name="form-name" value="greenart-tracking-consent" />
+      <input name="consent_status" />
+      <input name="consent_version" />
+      <input name="consent_at" />
+      <input name="consent_language" />
+      <input name="consent_id" />
     </form>
   </body>
 </html>

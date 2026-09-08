@@ -1,48 +1,67 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLanguage } from "./LanguageProvider";
 import Reveal from "./Reveal";
-import PrivacyGate from "./PrivacyGate";
+import { PRIVACY_VERSION } from "@/data/privacyTranslations";
+import { legalTranslations } from "@/data/legalTranslations";
 import {
-  PRIVACY_VERSION,
-  privacyTranslations,
-} from "@/data/privacyTranslations";
+  OPEN_PRIVACY_CHOICES_EVENT,
+  PRIVACY_CHOICE_EVENT,
+  PRIVACY_CHOICE_VERSION,
+  canUseB2BForm,
+  readPrivacyChoice,
+} from "@/lib/privacyConsent";
 
 const NETLIFY_FORM_NAME = "greenart-b2b-request";
 
 export default function OfferForm() {
   const { language, t } = useLanguage();
-  const privacyCopy = privacyTranslations[language] || privacyTranslations.en;
+  const legal = legalTranslations[language] || legalTranslations.en;
+  const copy = legal.consent;
   const [status, setStatus] = useState("idle");
-  const [privacyAccepted, setPrivacyAccepted] = useState(false);
-  const [privacyModalOpen, setPrivacyModalOpen] = useState(true);
-  const [privacyAcknowledgedAt, setPrivacyAcknowledgedAt] = useState("");
+  const [privacyChoice, setPrivacyChoice] = useState(null);
 
-  function acceptPrivacy() {
-    setPrivacyAccepted(true);
-    setPrivacyAcknowledgedAt(new Date().toISOString());
-    setPrivacyModalOpen(false);
-    setStatus("idle");
+  useEffect(() => {
+    setPrivacyChoice(readPrivacyChoice());
+
+    function handleChoice(event) {
+      setPrivacyChoice(event.detail || readPrivacyChoice());
+      setStatus("idle");
+    }
+
+    window.addEventListener(PRIVACY_CHOICE_EVENT, handleChoice);
+    return () => window.removeEventListener(PRIVACY_CHOICE_EVENT, handleChoice);
+  }, []);
+
+  const formAllowed = canUseB2BForm(privacyChoice);
+
+  function openPrivacyChoices() {
+    window.dispatchEvent(new Event(OPEN_PRIVACY_CHOICES_EVENT));
   }
 
   async function submit(event) {
     event.preventDefault();
 
-    if (!privacyAccepted || !privacyAcknowledgedAt) {
+    const currentChoice = readPrivacyChoice();
+    if (!canUseB2BForm(currentChoice)) {
+      setPrivacyChoice(currentChoice);
       setStatus("privacy-required");
-      setPrivacyModalOpen(true);
+      openPrivacyChoices();
       return;
     }
 
     const form = event.currentTarget;
     const formData = new FormData(form);
 
-    // Record the exact privacy notice acknowledgement with the Netlify submission.
+    // The single global privacy choice also acts as the B2B privacy
+    // acknowledgement. Only ALL and ESSENTIAL allow a B2B submission.
     formData.set("privacy_acknowledged", "true");
     formData.set("privacy_version", PRIVACY_VERSION);
-    formData.set("privacy_acknowledged_at", privacyAcknowledgedAt);
+    formData.set("privacy_acknowledged_at", currentChoice.timestamp);
     formData.set("privacy_language", language);
+    formData.set("privacy_choice", currentChoice.status);
+    formData.set("privacy_choice_version", PRIVACY_CHOICE_VERSION);
 
     setStatus("sending");
 
@@ -68,130 +87,143 @@ export default function OfferForm() {
   }
 
   return (
-    <>
-      <PrivacyGate open={privacyModalOpen} onAccept={acceptPrivacy} />
+    <section className="section section--offer" id="offer">
+      <Reveal className="offer-copy">
+        <p className="eyebrow">{t("offer.kicker")}</p>
+        <div className="offer-note">
+          <strong>{t("offer.title")}</strong>
+          <p>{t("offer.text")}</p>
+        </div>
+      </Reveal>
 
-      <section className="section section--offer" id="offer">
-        <Reveal className="offer-copy">
-          <p className="eyebrow">{t("offer.kicker")}</p>
-          <div className="offer-note">
-            <strong>{t("offer.title")}</strong>
-            <p>{t("offer.text")}</p>
-          </div>
-        </Reveal>
+      <Reveal
+        as="form"
+        className="offer-form"
+        name={NETLIFY_FORM_NAME}
+        method="POST"
+        data-netlify="true"
+        data-netlify-honeypot="bot-field"
+        onSubmit={submit}
+      >
+        <input type="hidden" name="form-name" value={NETLIFY_FORM_NAME} />
+        <input
+          type="hidden"
+          name="privacy_acknowledged"
+          value={formAllowed ? "true" : "false"}
+        />
+        <input type="hidden" name="privacy_version" value={PRIVACY_VERSION} />
+        <input
+          type="hidden"
+          name="privacy_acknowledged_at"
+          value={formAllowed ? privacyChoice?.timestamp || "" : ""}
+        />
+        <input type="hidden" name="privacy_language" value={language} />
+        <input
+          type="hidden"
+          name="privacy_choice"
+          value={formAllowed ? privacyChoice?.status || "" : ""}
+        />
+        <input
+          type="hidden"
+          name="privacy_choice_version"
+          value={PRIVACY_CHOICE_VERSION}
+        />
 
-        <Reveal
-          as="form"
-          className="offer-form"
-          name={NETLIFY_FORM_NAME}
-          method="POST"
-          data-netlify="true"
-          data-netlify-honeypot="bot-field"
-          onSubmit={submit}
-        >
-          <input type="hidden" name="form-name" value={NETLIFY_FORM_NAME} />
-          <input
-            type="hidden"
-            name="privacy_acknowledged"
-            value={privacyAccepted ? "true" : "false"}
-          />
-          <input type="hidden" name="privacy_version" value={PRIVACY_VERSION} />
-          <input
-            type="hidden"
-            name="privacy_acknowledged_at"
-            value={privacyAcknowledgedAt}
-          />
-          <input type="hidden" name="privacy_language" value={language} />
+        <p className="netlify-honeypot" aria-hidden="true">
+          <label>
+            Don&apos;t fill this out if you&apos;re human:
+            <input name="bot-field" tabIndex="-1" autoComplete="off" />
+          </label>
+        </p>
 
-          <p className="netlify-honeypot" aria-hidden="true">
-            <label>
-              Don&apos;t fill this out if you&apos;re human:
-              <input name="bot-field" tabIndex="-1" autoComplete="off" />
-            </label>
-          </p>
+        <div className="form-field">
+          <label htmlFor="company">{t("form.company")}</label>
+          <input id="company" name="company" type="text" required />
+        </div>
 
+        <div className="form-row">
           <div className="form-field">
-            <label htmlFor="company">{t("form.company")}</label>
-            <input id="company" name="company" type="text" required />
-          </div>
-
-          <div className="form-row">
-            <div className="form-field">
-              <label htmlFor="name">{t("form.name")}</label>
-              <input id="name" name="name" type="text" required />
-            </div>
-
-            <div className="form-field">
-              <label htmlFor="email">{t("form.email")}</label>
-              <input id="email" name="email" type="email" required />
-            </div>
-          </div>
-
-          <div className="form-row">
-            <div className="form-field">
-              <label htmlFor="country">{t("form.country")}</label>
-              <input id="country" name="country" type="text" required />
-            </div>
-
-            <div className="form-field">
-              <label htmlFor="business">{t("form.business")}</label>
-              <input id="business" name="business" type="text" />
-            </div>
+            <label htmlFor="name">{t("form.name")}</label>
+            <input id="name" name="name" type="text" required />
           </div>
 
           <div className="form-field">
-            <label htmlFor="volume">{t("form.volume")}</label>
-            <input id="volume" name="volume" type="text" />
+            <label htmlFor="email">{t("form.email")}</label>
+            <input id="email" name="email" type="email" required />
+          </div>
+        </div>
+
+        <div className="form-row">
+          <div className="form-field">
+            <label htmlFor="country">{t("form.country")}</label>
+            <input id="country" name="country" type="text" required />
           </div>
 
           <div className="form-field">
-            <label htmlFor="message">{t("form.message")}</label>
-            <textarea id="message" name="message" rows="5" />
+            <label htmlFor="business">{t("form.business")}</label>
+            <input id="business" name="business" type="text" />
           </div>
+        </div>
 
-          <div className="form-privacy-status">
-            <span className={privacyAccepted ? "is-accepted" : ""} aria-hidden="true" />
-            <div>
-              <p>
-                {privacyAccepted
-                  ? privacyCopy.formPrivacyAccepted
-                  : privacyCopy.formPrivacyRequired}
-              </p>
+        <div className="form-field">
+          <label htmlFor="volume">{t("form.volume")}</label>
+          <input id="volume" name="volume" type="text" />
+        </div>
+
+        <div className="form-field">
+          <label htmlFor="message">{t("form.message")}</label>
+          <textarea id="message" name="message" rows="5" />
+        </div>
+
+        <div className="form-privacy-status">
+          <span className={formAllowed ? "is-accepted" : ""} aria-hidden="true" />
+          <div>
+            <p>
+              {formAllowed
+                ? copy.formEnabled
+                : privacyChoice?.status === "rejected"
+                  ? copy.formRejected
+                  : copy.formRequired}
+            </p>
+            <div className="form-privacy-status__links">
               <a href="/privacy-policy" target="_blank" rel="noreferrer">
-                {privacyCopy.modalRead} ↗
+                {copy.privacy} ↗
               </a>
+              <button type="button" onClick={openPrivacyChoices}>
+                {copy.reopen}
+              </button>
             </div>
           </div>
+        </div>
 
-          <button
-            type="submit"
-            className="button button--primary"
-            disabled={status === "sending" || !privacyAccepted}
-          >
-            {status === "sending" ? t("form.sending") : t("form.submit")}
-          </button>
+        <button
+          type="submit"
+          className="button button--primary"
+          disabled={status === "sending" || !formAllowed}
+        >
+          {status === "sending" ? t("form.sending") : t("form.submit")}
+        </button>
 
-          {status === "success" && (
-            <p className="form-note" role="status">
-              {t("form.success")}
-            </p>
-          )}
+        {status === "success" && (
+          <p className="form-note" role="status">
+            {t("form.success")}
+          </p>
+        )}
 
-          {status === "error" && (
-            <p className="form-note" role="alert">
-              {t("form.error")}
-            </p>
-          )}
+        {status === "error" && (
+          <p className="form-note" role="alert">
+            {t("form.error")}
+          </p>
+        )}
 
-          {status === "privacy-required" && (
-            <p className="form-note" role="alert">
-              {privacyCopy.formPrivacyRequired}
-            </p>
-          )}
+        {status === "privacy-required" && (
+          <p className="form-note" role="alert">
+            {copy.formRequired}
+          </p>
+        )}
 
-          {status === "idle" && <p className="form-note">{t("form.note")}</p>}
-        </Reveal>
-      </section>
-    </>
+        {status === "idle" && <p className="form-note">{t("form.note")}</p>}
+      </Reveal>
+    </section>
   );
 }
