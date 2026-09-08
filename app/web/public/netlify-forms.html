@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Netlify Forms</title>
+  </head>
+  <body>
+    <!--
+      Static Netlify Forms blueprint for Next.js Runtime.
+      Keep these field names in sync with src/components/OfferForm.jsx.
+    -->
+    <form
+      name="greenart-b2b-request"
+      method="POST"
+      data-netlify="true"
+      data-netlify-honeypot="bot-field"
+      hidden
+    >
+      <input type="hidden" name="form-name" value="greenart-b2b-request" />
+      <input name="bot-field" />
+      <input name="company" />
+      <input name="name" />
+      <input name="email" type="email" />
+      <input name="country" />
+      <input name="business" />
+      <input name="volume" />
+      <textarea name="message"></textarea>
+    </form>
+  </body>
+</html>

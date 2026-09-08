@@ -1,39 +1,42 @@
 "use client";
 
+import { useState } from "react";
 import { useLanguage } from "./LanguageProvider";
 import Reveal from "./Reveal";
 
-const mailLabels = {
-  en: { subject: "GreenArt B2B offer request", company: "Company", name: "Contact", email: "Email", country: "Destination market", business: "Business type", volume: "Indicative volume", message: "Requirements" },
-  es: { subject: "Solicitud de oferta B2B GreenArt", company: "Empresa", name: "Contacto", email: "Email", country: "Mercado de destino", business: "Tipo de negocio", volume: "Volumen indicativo", message: "Necesidades" },
-  it: { subject: "Richiesta offerta B2B GreenArt", company: "Azienda", name: "Referente", email: "Email", country: "Mercato di destinazione", business: "Tipo attività", volume: "Volume indicativo", message: "Esigenze" },
-  de: { subject: "GreenArt B2B-Angebotsanfrage", company: "Unternehmen", name: "Ansprechpartner", email: "E-Mail", country: "Zielmarkt", business: "Geschäftsart", volume: "Ungefähres Volumen", message: "Anforderungen" },
-};
+const NETLIFY_FORM_NAME = "greenart-b2b-request";
 
 export default function OfferForm() {
-  const { language, t } = useLanguage();
+  const { t } = useLanguage();
+  const [status, setStatus] = useState("idle");
 
-  function submit(event) {
+  async function submit(event) {
     event.preventDefault();
 
-    const data = new FormData(event.currentTarget);
-    const labels = mailLabels[language] ?? mailLabels.en;
+    const form = event.currentTarget;
+    const formData = new FormData(form);
 
-    const body = [
-      `${labels.company}: ${data.get("company") || ""}`,
-      `${labels.name}: ${data.get("name") || ""}`,
-      `${labels.email}: ${data.get("email") || ""}`,
-      `${labels.country}: ${data.get("country") || ""}`,
-      `${labels.business}: ${data.get("business") || ""}`,
-      `${labels.volume}: ${data.get("volume") || ""}`,
-      "",
-      `${labels.message}:`,
-      data.get("message") || "",
-    ].join("\n");
+    setStatus("sending");
 
-    window.location.href =
-      `mailto:info@greenart.tech?subject=${encodeURIComponent(labels.subject)}` +
-      `&body=${encodeURIComponent(body)}`;
+    try {
+      const response = await fetch("/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams(formData).toString(),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Netlify form submission failed: ${response.status}`);
+      }
+
+      form.reset();
+      setStatus("success");
+    } catch (error) {
+      console.error(error);
+      setStatus("error");
+    }
   }
 
   return (
@@ -43,20 +46,35 @@ export default function OfferForm() {
         <div className="offer-note">
           <strong>{t("offer.title")}</strong>
           <p>{t("offer.text")}</p>
-                {/* 
-                <div className="offer-note">
-                  <span>GREENART / B2B</span>
-                  <strong>{t("offer.noteTitle")}</strong>
-                  <p>{t("offer.noteText")}</p>
-                </div>
-                */}
+          {/*
+          <div className="offer-note">
+            <span>GREENART / B2B</span>
+            <strong>{t("offer.noteTitle")}</strong>
+            <p>{t("offer.noteText")}</p>
+          </div>
+          */}
         </div>
-        
-
-
       </Reveal>
 
-      <Reveal as="form" className="offer-form" onSubmit={submit}>
+      <Reveal
+        as="form"
+        className="offer-form"
+        name={NETLIFY_FORM_NAME}
+        method="POST"
+        data-netlify="true"
+        data-netlify-honeypot="bot-field"
+        onSubmit={submit}
+      >
+        {/* Required on the visible JS form so Netlify maps the AJAX POST to the detected form. */}
+        <input type="hidden" name="form-name" value={NETLIFY_FORM_NAME} />
+
+        <p className="netlify-honeypot" aria-hidden="true">
+          <label>
+            Don&apos;t fill this out if you&apos;re human:
+            <input name="bot-field" tabIndex="-1" autoComplete="off" />
+          </label>
+        </p>
+
         <div className="form-field">
           <label htmlFor="company">{t("form.company")}</label>
           <input id="company" name="company" type="text" required />
@@ -96,11 +114,27 @@ export default function OfferForm() {
           <textarea id="message" name="message" rows="5" />
         </div>
 
-        <button type="submit" className="button button--primary">
-          {t("form.submit")}
+        <button
+          type="submit"
+          className="button button--primary"
+          disabled={status === "sending"}
+        >
+          {status === "sending" ? t("form.sending") : t("form.submit")}
         </button>
 
-        <p className="form-note">{t("form.note")}</p>
+        {status === "success" && (
+          <p className="form-note" role="status">
+            {t("form.success")}
+          </p>
+        )}
+
+        {status === "error" && (
+          <p className="form-note" role="alert">
+            {t("form.error")}
+          </p>
+        )}
+
+        {status === "idle" && <p className="form-note">{t("form.note")}</p>}
       </Reveal>
     </section>
   );
