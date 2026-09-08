@@ -17,6 +17,8 @@ const PHASE_ORDER = [
 // The audio lasts 90 seconds. The final screen starts 5 seconds before the end
 // and then remains on screen until the B2B CTA is explicitly pressed.
 const INTRO_AUDIO_DURATION_MS = 90000;
+const INTRO_VOLUME = 0.38;
+const INTRO_VOLUME_RAMP_MS = 10000;
 
 const PHASE_TIMINGS = {
   // 1 line: short opening
@@ -45,12 +47,17 @@ export default function Intro() {
   const audioRef = useRef(null);
   const timersRef = useRef([]);
   const introStartRef = useRef(null);
+  const volumeRampRef = useRef(null);
 
   useEffect(() => {
     document.body.classList.add("intro-open");
 
     return () => {
       timersRef.current.forEach(clearTimeout);
+      if (volumeRampRef.current) {
+        cancelAnimationFrame(volumeRampRef.current);
+        volumeRampRef.current = null;
+      }
       const audio = audioRef.current;
       if (audio) {
         audio.pause();
@@ -62,6 +69,42 @@ export default function Intro() {
 
   function queue(fn, ms) {
     timersRef.current.push(window.setTimeout(fn, ms));
+  }
+
+  function cancelVolumeRamp() {
+    if (volumeRampRef.current) {
+      cancelAnimationFrame(volumeRampRef.current);
+      volumeRampRef.current = null;
+    }
+  }
+
+  function rampVolumeFromIntroStart() {
+    const audio = audioRef.current;
+    if (!audio || introStartRef.current === null) return;
+
+    cancelVolumeRamp();
+
+    const updateVolume = () => {
+      const currentAudio = audioRef.current;
+      if (!currentAudio || currentAudio.paused || introStartRef.current === null) {
+        volumeRampRef.current = null;
+        return;
+      }
+
+      const elapsedMs = Math.max(0, performance.now() - introStartRef.current);
+      const progress = Math.min(1, elapsedMs / INTRO_VOLUME_RAMP_MS);
+
+      currentAudio.volume = INTRO_VOLUME * progress;
+
+      if (progress < 1) {
+        volumeRampRef.current = requestAnimationFrame(updateVolume);
+      } else {
+        currentAudio.volume = INTRO_VOLUME;
+        volumeRampRef.current = null;
+      }
+    };
+
+    updateVolume();
   }
 
   function startIntro(withSound) {
@@ -80,8 +123,11 @@ export default function Intro() {
       audio.currentTime = 0;
 
       if (withSound) {
-        audio.volume = 0.38;
-        audio.play().catch(() => setSoundOn(false));
+        audio.volume = 0;
+        audio
+          .play()
+          .then(() => rampVolumeFromIntroStart())
+          .catch(() => setSoundOn(false));
       }
     }
 
@@ -116,8 +162,10 @@ export default function Intro() {
     const audio = audioRef.current;
     if (!audio) return;
 
+    cancelVolumeRamp();
     audio.pause();
     audio.currentTime = 0;
+    audio.volume = 0;
     setSoundOn(false);
   }
 
@@ -151,8 +199,6 @@ export default function Intro() {
     setSoundOn(next);
 
     if (next) {
-      audio.volume = 0.38;
-
       if (introStartRef.current !== null) {
         const elapsedSeconds = Math.max(
           0,
@@ -173,8 +219,26 @@ export default function Intro() {
         }
       }
 
-      audio.play().catch(() => setSoundOn(false));
+      const elapsedMs =
+        introStartRef.current === null
+          ? INTRO_VOLUME_RAMP_MS
+          : Math.max(0, performance.now() - introStartRef.current);
+
+      audio.volume =
+        INTRO_VOLUME * Math.min(1, elapsedMs / INTRO_VOLUME_RAMP_MS);
+
+      audio
+        .play()
+        .then(() => {
+          if (elapsedMs < INTRO_VOLUME_RAMP_MS) {
+            rampVolumeFromIntroStart();
+          } else {
+            audio.volume = INTRO_VOLUME;
+          }
+        })
+        .catch(() => setSoundOn(false));
     } else {
+      cancelVolumeRamp();
       audio.pause();
     }
   }
