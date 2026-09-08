@@ -19,6 +19,7 @@ export const translations = {
     "intro.uncompromised.2": "Every cycle controlled.",
     "intro.uncompromised.3": "Every flower uncompromised.",
     "intro.tagline": "Art of Technological Cultivation",
+    "intro.finalCta": "REQUEST B2B OFFER TO GET ACCESS",
 
     "nav.intro": "INTRO",
     "nav.home": "HOME",
@@ -176,6 +177,7 @@ export const translations = {
     "intro.uncompromised.2": "Cada ciclo controlado.",
     "intro.uncompromised.3": "Cada flor sin concesiones.",
     "intro.tagline": "Arte del Cultivo Tecnológico",
+    "intro.finalCta": "SOLICITAR OFERTA B2B PARA OBTENER ACCESO",
 
     "nav.intro": "INTRO",
     "nav.home": "INICIO",
@@ -333,6 +335,7 @@ export const translations = {
     "intro.uncompromised.2": "Ogni ciclo controllato.",
     "intro.uncompromised.3": "Ogni fiore senza compromessi.",
     "intro.tagline": "Arte della Coltivazione Tecnologica",
+    "intro.finalCta": "RICHIEDI OFFERTA B2B PER OTTENERE ACCESSO",
 
     "nav.intro": "INTRO",
     "nav.home": "HOME",
@@ -490,6 +493,7 @@ export const translations = {
     "intro.uncompromised.2": "Jeder Zyklus kontrolliert.",
     "intro.uncompromised.3": "Jede Blüte kompromisslos.",
     "intro.tagline": "Kunst des technologischen Anbaus",
+    "intro.finalCta": "B2B-ANGEBOT FÜR DEN ZUGANG ANFRAGEN",
 
     "nav.intro": "INTRO",
     "nav.home": "STARTSEITE",
