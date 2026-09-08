@@ -3183,3 +3183,362 @@ img {
     font-size: 12.5px;
   }
 }
+
+/* =========================================================
+   B2B OFFER — SILVER PREMIUM REFINEMENT
+   ========================================================= */
+
+/*
+  Scoped to the B2B request page only.
+  The original GreenArt palette remains untouched elsewhere.
+*/
+.offer-page {
+  --offer-silver-0: #f7f8f8;
+  --offer-silver-1: #eef0f1;
+  --offer-silver-2: #e3e6e7;
+  --offer-silver-3: #d3d7d9;
+  --offer-silver-4: #aeb5b8;
+  --offer-graphite: #252a2b;
+  --offer-graphite-soft: #5f676a;
+  --offer-line: rgba(41, 47, 49, .15);
+  --offer-line-strong: rgba(41, 47, 49, .27);
+
+  color: var(--offer-graphite);
+  background: var(--offer-silver-1);
+}
+
+/* Header follows the silver page without becoming visually heavy. */
+.offer-page .site-header {
+  background: rgba(241, 243, 244, .9);
+  border-bottom-color: rgba(41, 47, 49, .10);
+  backdrop-filter: blur(22px) saturate(105%);
+}
+
+.offer-page .site-nav a,
+.offer-page .language-switcher button {
+  color: #71797c;
+}
+
+.offer-page .site-nav a:hover,
+.offer-page .site-nav a.active,
+.offer-page .language-switcher button:hover,
+.offer-page .language-switcher button.active {
+  color: var(--offer-graphite);
+}
+
+.offer-page .site-nav .nav-cta {
+  color: #f7f8f8;
+  background: var(--offer-graphite);
+  border-color: var(--offer-graphite);
+}
+
+.offer-page .site-nav .nav-cta:hover,
+.offer-page .site-nav .nav-cta.active {
+  color: #fff;
+  background: #3b4244;
+  border-color: #3b4244;
+}
+
+/* Main B2B area: pearl/silver rather than beige/green. */
+.offer-page .section--offer {
+  background:
+    radial-gradient(circle at 12% 42%, rgba(255,255,255,.78), transparent 24rem),
+    radial-gradient(circle at 86% 18%, rgba(174,181,184,.18), transparent 28rem),
+    linear-gradient(135deg, #f4f5f5 0%, #e9ebec 48%, #dfe2e3 100%);
+}
+
+.offer-page .section--offer::before {
+  opacity: .5;
+  background:
+    radial-gradient(circle at 14% 20%, rgba(255,255,255,.65), transparent 22rem),
+    radial-gradient(circle at 84% 78%, rgba(135,143,146,.08), transparent 25rem);
+}
+
+/* Kicker remains small and refined. */
+.offer-page .offer-copy > .eyebrow {
+  color: #727b7e;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .24em;
+}
+
+/*
+  Deliberately NOT a large editorial headline.
+  Same visual language as “International B2B only”.
+*/
+.offer-page .offer-title-compact {
+  max-width: 620px;
+  margin: 0 0 24px;
+  color: var(--offer-graphite);
+  font-family: "Iowan Old Style", Baskerville, Georgia, serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+
+.offer-page .offer-copy > p:not(.eyebrow) {
+  max-width: 610px;
+  color: #697174;
+  font-size: 15px;
+  line-height: 1.78;
+}
+
+.offer-page .offer-note {
+  margin-top: 44px;
+  padding: 24px;
+  border-left: 2px solid #9ca4a7;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.56), rgba(216,220,222,.55));
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.35);
+}
+
+.offer-page .offer-note span {
+  color: #737c7f;
+}
+
+.offer-page .offer-note strong {
+  color: var(--offer-graphite);
+  font-size: 24px;
+}
+
+.offer-page .offer-note p {
+  color: #6d7578;
+}
+
+.offer-page .offer-form {
+  border: 1px solid var(--offer-line);
+  background:
+    linear-gradient(145deg, rgba(250,251,251,.92), rgba(229,232,233,.88));
+  box-shadow:
+    0 30px 90px rgba(45, 52, 54, .10),
+    inset 0 1px 0 rgba(255,255,255,.8);
+}
+
+.offer-page .form-field label {
+  color: #717a7d;
+}
+
+.offer-page .form-field input,
+.offer-page .form-field textarea {
+  color: var(--offer-graphite);
+  border-bottom-color: var(--offer-line-strong);
+}
+
+.offer-page .form-field input:focus,
+.offer-page .form-field textarea:focus {
+  border-color: #7f888b;
+}
+
+.offer-page .button--primary {
+  color: #f8f9f9;
+  background: var(--offer-graphite);
+  border-color: var(--offer-graphite);
+  box-shadow: 0 14px 34px rgba(37,42,43,.13);
+}
+
+.offer-page .button--primary:hover {
+  background: #454d4f;
+  border-color: #454d4f;
+}
+
+.offer-page .form-note {
+  color: #858d90;
+}
+
+/* Footer also closes the page in the same silver family. */
+.offer-page .site-footer {
+  border-top-color: rgba(41,47,49,.12);
+  background: linear-gradient(180deg, #dfe2e3, #d5d9da);
+}
+
+.offer-page .site-footer p,
+.offer-page .site-footer__links,
+.offer-page .site-footer__statement {
+  color: #687174;
+}
+
+@media (max-width: 720px) {
+  .offer-page .offer-title-compact {
+    max-width: 92vw;
+    margin-bottom: 20px;
+    font-size: 22px;
+    line-height: 1.32;
+  }
+
+  .offer-page .offer-copy > p:not(.eyebrow) {
+    font-size: 15px;
+  }
+
+  .offer-page .offer-note strong {
+    font-size: 22px;
+  }
+
+  .offer-page .site-nav {
+    background: linear-gradient(180deg, rgba(244,246,246,.995), rgba(228,231,232,.995));
+    border-left-color: rgba(41,47,49,.10);
+  }
+}
+
+
+/* =========================================================
+   B2B OFFER — BLACK HEADER / FOOTER + FIXED GA BRAND
+   Scoped only to the Request B2B Offer page.
+   ========================================================= */
+
+/* Brand is available in the shared Header but only shown on this release page. */
+.site-header__brand {
+  display: none;
+}
+
+.offer-page .site-header__brand {
+  position: relative;
+  z-index: 1005;
+  grid-column: 1;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  width: 126px;
+  min-width: 0;
+}
+
+.offer-page .site-header__brand img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  filter: none;
+  mix-blend-mode: normal;
+}
+
+/* Black header: the JPEG black background visually melts into the bar. */
+.offer-page .site-header {
+  background: #000;
+  border-bottom-color: rgba(255,255,255,.10);
+  backdrop-filter: none;
+}
+
+.offer-page .site-nav a,
+.offer-page .language-switcher button {
+  color: #aeb4b6;
+}
+
+.offer-page .site-nav a:hover,
+.offer-page .site-nav a.active,
+.offer-page .language-switcher button:hover,
+.offer-page .language-switcher button.active {
+  color: #fff;
+}
+
+.offer-page .site-nav a::after {
+  background: #d8dddf;
+}
+
+.offer-page .site-nav .nav-cta {
+  color: #f5f6f6;
+  background: transparent;
+  border-color: rgba(220,224,226,.48);
+}
+
+.offer-page .site-nav .nav-cta:hover,
+.offer-page .site-nav .nav-cta.active {
+  color: #050505;
+  background: #d9dddf;
+  border-color: #d9dddf;
+}
+
+.offer-page .menu-toggle span {
+  background: #f2f3f3;
+}
+
+/* Black footer: silver typography and native black logo, no light-background inversion. */
+.offer-page .site-footer {
+  border-top-color: rgba(255,255,255,.10);
+  background: #000;
+}
+
+.offer-page .site-footer__brand img,
+.offer-page .site-footer .brand-logo-on-light {
+  filter: none;
+  mix-blend-mode: normal;
+}
+
+.offer-page .site-footer p,
+.offer-page .site-footer__links,
+.offer-page .site-footer__statement {
+  color: #a8afb1;
+}
+
+.offer-page .site-footer__links a:hover {
+  color: #fff;
+}
+
+@media (max-width: 1380px) {
+  .offer-page .site-header__brand {
+    width: 112px;
+  }
+}
+
+@media (max-width: 720px) {
+  /* Keep the GA mark permanently visible at the top-left on phones. */
+  .offer-page .site-header__brand {
+    width: 96px;
+    grid-column: 1;
+    justify-self: start;
+  }
+
+  .offer-page .site-header {
+    padding-inline: 18px;
+    background: #000;
+  }
+
+  .offer-page .site-nav {
+    background: linear-gradient(180deg, #080909 0%, #000 100%);
+    border-left-color: rgba(255,255,255,.10);
+    box-shadow: -24px 24px 70px rgba(0,0,0,.44);
+  }
+
+  .offer-page .site-nav > a:not(.nav-cta) {
+    color: #c2c7c9;
+    border-bottom-color: rgba(255,255,255,.10);
+  }
+
+  .offer-page .site-nav > a:not(.nav-cta)::before {
+    color: #757c7f;
+  }
+
+  .offer-page .site-nav > a:not(.nav-cta).active,
+  .offer-page .site-nav > a:not(.nav-cta).active::before {
+    color: #fff;
+  }
+
+  .offer-page .site-nav .nav-cta {
+    color: #050505;
+    background: #d9dddf;
+    border-color: #d9dddf;
+  }
+
+  .offer-page .site-nav .nav-cta:hover,
+  .offer-page .site-nav .nav-cta.active {
+    color: #000;
+    background: #f2f4f4;
+    border-color: #f2f4f4;
+  }
+
+  .offer-page .language-switcher--mobile {
+    border-top-color: rgba(255,255,255,.10);
+  }
+
+  .offer-page .language-switcher--mobile button {
+    color: #858d90;
+  }
+
+  .offer-page .language-switcher--mobile button.active,
+  .offer-page .language-switcher--mobile button:hover {
+    color: #fff;
+  }
+
+  .offer-page .nav-backdrop {
+    background: rgba(0,0,0,.42);
+  }
+}

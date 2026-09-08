@@ -40,14 +40,20 @@ export default function OfferForm() {
     <section className="section section--offer" id="offer">
       <Reveal className="offer-copy">
         <p className="eyebrow">{t("offer.kicker")}</p>
-        <h2>{t("offer.title")}</h2>
-        <p>{t("offer.text")}</p>
-
         <div className="offer-note">
-          <span>GREENART / B2B</span>
-          <strong>{t("offer.noteTitle")}</strong>
-          <p>{t("offer.noteText")}</p>
+          <strong>{t("offer.title")}</strong>
+          <p>{t("offer.text")}</p>
+                {/* 
+                <div className="offer-note">
+                  <span>GREENART / B2B</span>
+                  <strong>{t("offer.noteTitle")}</strong>
+                  <p>{t("offer.noteText")}</p>
+                </div>
+                */}
         </div>
+        
+
+
       </Reveal>
 
       <Reveal as="form" className="offer-form" onSubmit={submit}>

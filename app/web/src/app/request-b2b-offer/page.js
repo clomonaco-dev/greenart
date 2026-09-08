@@ -6,12 +6,12 @@ export const metadata = { title: "Request B2B Offer" };
 
 export default function Page() {
   return (
-    <>
+    <div className="offer-page">
       <Header />
       <main className="inner-page">
         <OfferForm />
       </main>
       <Footer />
-    </>
+    </div>
   );
 }
