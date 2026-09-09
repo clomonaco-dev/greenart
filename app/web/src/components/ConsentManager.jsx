@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { useLanguage } from "./LanguageProvider";
 import {
   legalTranslations,
-  TRACKING_CONSENT_VERSION,
 } from "@/data/legalTranslations";
 import {
   OPEN_PRIVACY_CHOICES_EVENT,
@@ -260,7 +259,7 @@ export default function ConsentManager() {
    */
 
   const storeChoice = useCallback(
-    async (status) => {
+    (status) => {
       const previous =
         readPrivacyChoice();
 
@@ -306,61 +305,7 @@ export default function ConsentManager() {
         )
       );
 
-      /*
-       * -----------------------------------------------------
-       * RECORD REMOTE CONSENT
-       * -----------------------------------------------------
-       *
-       * Registriamo su Netlify solo il consenso
-       * AFFIRMATIVE al tracking opzionale.
-       *
-       * Essential e Reject rimangono locali.
-       */
-
-      if (
-        status === PRIVACY_CHOICES.ALL
-      ) {
-        try {
-          const body =
-            new URLSearchParams({
-              "form-name":
-                "greenart-tracking-consent",
-
-              consent_status:
-                "granted",
-
-              consent_version:
-                TRACKING_CONSENT_VERSION,
-
-              consent_at:
-                next.timestamp,
-
-              consent_language:
-                language,
-
-              consent_id:
-                next.consentId,
-            });
-
-          await fetch("/", {
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "application/x-www-form-urlencoded",
-            },
-
-            body: body.toString(),
-
-            keepalive: true,
-          });
-        } catch (error) {
-          console.warn(
-            "Unable to record tracking consent receipt",
-            error
-          );
-        }
-      }
+      // Privacy preferences remain local; no consent receipt is sent to Netlify.
 
       /*
        * -----------------------------------------------------
@@ -393,7 +338,7 @@ export default function ConsentManager() {
         window.location.reload();
       }
     },
-    [language]
+    []
   );
 
   /*

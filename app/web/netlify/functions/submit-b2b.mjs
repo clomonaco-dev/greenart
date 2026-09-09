@@ -84,7 +84,8 @@ export default async (request) => {
   params.set("form-name", FORM_NAME);
 
   try {
-    const response = await fetch(`${requestUrl.origin}/`, {
+    // Netlify Forms must receive the POST on a static asset, not a Next.js route.
+    const response = await fetch(new URL("/netlify-forms.html", requestUrl.origin), {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -93,6 +94,7 @@ export default async (request) => {
     });
 
     if (!response.ok) {
+      console.error("B2B form forwarding rejected", { status: response.status });
       return Response.json(
         { ok: false, error: "Unable to store form submission" },
         { status: 502 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "./LanguageProvider";
 import Reveal from "./Reveal";
 import { PRIVACY_VERSION } from "@/data/privacyTranslations";
@@ -20,6 +20,8 @@ export default function OfferForm() {
   const legal = legalTranslations[language] || legalTranslations.en;
   const copy = legal.consent;
   const [status, setStatus] = useState("idle");
+  const submitting = useRef(false);
+  const successDialog = useRef(null);
   const [privacyChoice, setPrivacyChoice] = useState(null);
 
   useEffect(() => {
@@ -34,6 +36,21 @@ export default function OfferForm() {
     return () => window.removeEventListener(PRIVACY_CHOICE_EVENT, handleChoice);
   }, []);
 
+  useEffect(() => {
+    if (status !== "success") return;
+    const dialog = successDialog.current;
+    if (!dialog) return;
+    const previousFocus = document.activeElement;
+    const previousOverflow = document.body.style.overflow;
+    dialog.showModal();
+    document.body.style.overflow = "hidden";
+    return () => {
+      dialog.close();
+      document.body.style.overflow = previousOverflow;
+      if (previousFocus?.isConnected) previousFocus.focus();
+    };
+  }, [status]);
+
   const formAllowed = canUseB2BForm(privacyChoice);
 
   function openPrivacyChoices() {
@@ -42,6 +59,7 @@ export default function OfferForm() {
 
   async function submit(event) {
     event.preventDefault();
+    if (submitting.current) return;
 
     const currentChoice = readPrivacyChoice();
     if (!canUseB2BForm(currentChoice)) {
@@ -52,6 +70,7 @@ export default function OfferForm() {
     }
 
     const form = event.currentTarget;
+    if (!form.reportValidity()) return;
     const formData = new FormData(form);
 
     // The single global privacy choice also acts as the B2B privacy
@@ -63,6 +82,7 @@ export default function OfferForm() {
     formData.set("privacy_choice", currentChoice.status);
     formData.set("privacy_choice_version", PRIVACY_CHOICE_VERSION);
 
+    submitting.current = true;
     setStatus("sending");
 
     try {
@@ -78,11 +98,18 @@ export default function OfferForm() {
         throw new Error(`Netlify form submission failed: ${response.status}`);
       }
 
+      const result = await response.json();
+      if (result.ok !== true) {
+        throw new Error("Netlify function did not confirm the submission");
+      }
+
       form.reset();
       setStatus("success");
     } catch (error) {
       console.error(error);
       setStatus("error");
+    } finally {
+      submitting.current = false;
     }
   }
 
@@ -224,6 +251,21 @@ export default function OfferForm() {
 
         {status === "idle" && <p className="form-note">{t("form.note")}</p>}
       </Reveal>
+      <dialog
+        ref={successDialog}
+        className="offer-success-dialog"
+        aria-labelledby="offer-success-title"
+        aria-describedby="offer-success-description"
+        onCancel={() => setStatus("idle")}
+        onClose={() => setStatus((current) => current === "success" ? "idle" : current)}
+      >
+        <span className="offer-success-dialog__mark" aria-hidden="true">✓</span>
+        <h2 id="offer-success-title">{t("form.successTitle")}</h2>
+        <p id="offer-success-description">{t("form.success")}</p>
+        <button type="button" className="button button--primary" autoFocus onClick={() => setStatus("idle")}>
+          {t("form.successClose")}
+        </button>
+      </dialog>
     </section>
   );
 }

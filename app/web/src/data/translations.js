@@ -152,6 +152,8 @@ export const translations = {
     "form.submit": "SEND REQUEST",
     "form.sending": "SENDING...",
     "form.note": "Your request will be sent to the GreenArt commercial team.",
+    "form.successTitle": "Request sent",
+    "form.successClose": "CLOSE",
     "form.success": "Request sent successfully. The GreenArt team will review it and get back to you.",
     "form.error": "The request could not be sent. Please try again or contact info@greenart.tech.",
 
@@ -313,6 +315,8 @@ export const translations = {
     "form.submit": "ENVIAR SOLICITUD",
     "form.sending": "ENVIANDO...",
     "form.note": "Su solicitud se enviará al equipo comercial de GreenArt.",
+    "form.successTitle": "Solicitud enviada",
+    "form.successClose": "CERRAR",
     "form.success": "Solicitud enviada correctamente. El equipo de GreenArt la revisará y se pondrá en contacto con usted.",
     "form.error": "No se ha podido enviar la solicitud. Inténtelo de nuevo o contacte con info@greenart.tech.",
 
@@ -474,6 +478,8 @@ export const translations = {
     "form.submit": "INVIA RICHIESTA",
     "form.sending": "INVIO IN CORSO...",
     "form.note": "La richiesta verrà inviata al team commerciale GreenArt.",
+    "form.successTitle": "Richiesta inviata",
+    "form.successClose": "CHIUDI",
     "form.success": "Richiesta inviata correttamente. Il team GreenArt la esaminerà e ti ricontatterà.",
     "form.error": "Non è stato possibile inviare la richiesta. Riprova oppure contatta info@greenart.tech.",
 
@@ -635,6 +641,8 @@ export const translations = {
     "form.submit": "ANFRAGE SENDEN",
     "form.sending": "WIRD GESENDET...",
     "form.note": "Ihre Anfrage wird an das GreenArt-Vertriebsteam übermittelt.",
+    "form.successTitle": "Anfrage gesendet",
+    "form.successClose": "SCHLIESSEN",
     "form.success": "Anfrage erfolgreich gesendet. Das GreenArt-Team wird sie prüfen und sich bei Ihnen melden.",
     "form.error": "Die Anfrage konnte nicht gesendet werden. Bitte versuchen Sie es erneut oder kontaktieren Sie info@greenart.tech.",
 
