@@ -14,26 +14,30 @@ const PHASE_ORDER = [
   "signature",
 ];
 
-// The audio lasts 90 seconds. The final screen starts 5 seconds before the end
+// The audio lasts 60 seconds. The final screen starts 5 seconds before the end
 // and then remains on screen until the B2B CTA is explicitly pressed.
-const INTRO_AUDIO_DURATION_MS = 90000;
+const INTRO_AUDIO_DURATION_MS = 60000;
 const INTRO_VOLUME = 1;
+
+// Preserve the narrative proportions within 55 seconds; reserve 5 seconds for the finale.
+const NARRATIVE_SCALE = (INTRO_AUDIO_DURATION_MS - 5000) / 85000;
+const narrativeMs = (ms) => Math.round(ms * NARRATIVE_SCALE);
 
 const PHASE_TIMINGS = {
   // 1 line: short opening
-  precision: 7000,
+  precision: narrativeMs(7000),
 
   // 2 lines: more time for the staged reveal
-  excellence: 23000,
-  standards: 39000,
+  excellence: narrativeMs(23000),
+  standards: narrativeMs(39000),
 
   // 3 lines: the longest narrative phases
-  uncompromised: 62000,
+  uncompromised: narrativeMs(62000),
 
-  // Final screen starts with 5 seconds left in the 90-second soundtrack
-  signature: INTRO_AUDIO_DURATION_MS - 5000, // 85s
-  signatureTagline: INTRO_AUDIO_DURATION_MS - 3000, // 87s
-  signatureCta: INTRO_AUDIO_DURATION_MS - 1000, // 89s
+  // Final screen starts with 5 seconds left in the 60-second soundtrack
+  signature: INTRO_AUDIO_DURATION_MS - 5000, // 55s
+  signatureTagline: INTRO_AUDIO_DURATION_MS - 3000, // 57s
+  signatureCta: INTRO_AUDIO_DURATION_MS - 1000, // 59s
 };
 
 export default function Intro() {
@@ -87,15 +91,15 @@ export default function Intro() {
     }
 
     // Narrative timing is intentionally non-uniform:
-    // 0-7s   Premium (1 line)
-    // 7-23s  Precision (2 lines)
-    // 23-39s Excellence (2 lines)
-    // 39-62s Standards (3 lines)
-    // 62-85s Uncompromised (3 lines)
-    // 85s    GREENART
-    // 87s    Art of Technological Cultivation
-    // 89s    Request B2B Offer to get access
-    // 90s+   Hold the final screen indefinitely until the CTA is pressed.
+    // 0-4.53s      Premium (1 line)
+    // 4.53-14.88s  Precision (2 lines)
+    // 14.88-25.24s Excellence (2 lines)
+    // 25.24-40.12s Standards (3 lines)
+    // 40.12-55s    Uncompromised (3 lines)
+    // 55s    GREENART
+    // 57s    Art of Technological Cultivation
+    // 59s    Request B2B Offer to get access
+    // 60s+   Hold the final screen indefinitely until the CTA is pressed.
     queue(() => setPhase("precision"), PHASE_TIMINGS.precision);
     queue(() => setPhase("excellence"), PHASE_TIMINGS.excellence);
     queue(() => setPhase("standards"), PHASE_TIMINGS.standards);
@@ -109,7 +113,7 @@ export default function Intro() {
     queue(() => setSignatureStep(2), PHASE_TIMINGS.signatureTagline);
     queue(() => setSignatureStep(3), PHASE_TIMINGS.signatureCta);
 
-    // Deliberately NO automatic redirect at 90 seconds.
+    // Deliberately NO automatic redirect at 60 seconds.
     // The final screen stays visible until the user presses the B2B CTA.
   }
 
@@ -241,21 +245,21 @@ export default function Intro() {
         <div className={messageClass("precision", "intro__message--headline")}>
           {stagedCopy(
             ["intro.precision.1", "intro.precision.2"],
-            [0, 6500]
+            [0, narrativeMs(6500)]
           )}
         </div>
 
         <div className={messageClass("excellence", "intro__message--headline")}>
           {stagedCopy(
             ["intro.excellence.1", "intro.excellence.2"],
-            [0, 6500]
+            [0, narrativeMs(6500)]
           )}
         </div>
 
         <div className={messageClass("standards", "intro__message--headline")}>
           {stagedCopy(
             ["intro.standards.1", "intro.standards.2", "intro.standards.3"],
-            [0, 6000, 12000]
+            [0, narrativeMs(6000), narrativeMs(12000)]
           )}
         </div>
 
@@ -266,7 +270,7 @@ export default function Intro() {
               "intro.uncompromised.2",
               "intro.uncompromised.3",
             ],
-            [0, 6000, 12000]
+            [0, narrativeMs(6000), narrativeMs(12000)]
           )}
         </div>
 
@@ -297,8 +301,9 @@ export default function Intro() {
       )}
 
       <audio ref={audioRef} preload="auto" onEnded={() => setSoundOn(false)}>
-        <source src="/audio/intro-fade.mp3" type="audio/mpeg" />
+        <source src="/audio/preview.mp3" type="audio/mpeg" />
       </audio>
     </div>
   );
 }
+
