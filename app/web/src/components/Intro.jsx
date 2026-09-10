@@ -5,46 +5,42 @@ import { useRouter } from "next/navigation";
 import logo from "@/assets/logo.jpeg";
 import { useLanguage } from "./LanguageProvider";
 
-const PHASE_ORDER = [
-  "premium",
-  "precision",
-  "excellence",
-  "standards",
-  "uncompromised",
-  "signature",
+const NARRATIVE_PHASES = [
+  { id: "premium", key: "intro.premium" },
+  { id: "precision1", key: "intro.precision.1" },
+  { id: "precision2", key: "intro.precision.2" },
+  { id: "excellence1", key: "intro.excellence.1" },
+  { id: "excellence2", key: "intro.excellence.2" },
+  { id: "standards1", key: "intro.standards.1" },
+  { id: "standards2", key: "intro.standards.2" },
+  { id: "standards3", key: "intro.standards.3" },
+  { id: "uncompromised1", key: "intro.uncompromised.1" },
+  { id: "uncompromised2", key: "intro.uncompromised.2" },
+  { id: "uncompromised3", key: "intro.uncompromised.3" },
 ];
 
-// The audio lasts 60 seconds. The final screen starts 5 seconds before the end
-// and then remains on screen until the B2B CTA is explicitly pressed.
+const TEXT_PHASES = [
+  ...NARRATIVE_PHASES.map(({ id }) => id),
+  "greenart",
+  "tagline",
+];
+
+// The complete soundtrack/intro remains divided over 60 seconds.
 const INTRO_AUDIO_DURATION_MS = 60000;
 const INTRO_VOLUME = 1;
 
-// Preserve the narrative proportions within 55 seconds; reserve 5 seconds for the finale.
-const NARRATIVE_SCALE = (INTRO_AUDIO_DURATION_MS - 5000) / 85000;
-const narrativeMs = (ms) => Math.round(ms * NARRATIVE_SCALE);
-
-const PHASE_TIMINGS = {
-  // 1 line: short opening
-  precision: narrativeMs(7000),
-
-  // 2 lines: more time for the staged reveal
-  excellence: narrativeMs(23000),
-  standards: narrativeMs(39000),
-
-  // 3 lines: the longest narrative phases
-  uncompromised: narrativeMs(62000),
-
-  // Final screen starts with 5 seconds left in the 60-second soundtrack
-  signature: INTRO_AUDIO_DURATION_MS - 5000, // 55s
-  signatureTagline: INTRO_AUDIO_DURATION_MS - 3000, // 57s
-  signatureCta: INTRO_AUDIO_DURATION_MS - 1000, // 59s
-};
+// All 13 text screens share the first 59 seconds. Each one has a clearly
+// visible approach animation, time to read, a normal fade-out and then a
+// short fully-black pause before the next sentence starts from a point.
+const FINALE_AT_MS = INTRO_AUDIO_DURATION_MS - 1000;
+const TEXT_SLOT_MS = FINALE_AT_MS / TEXT_PHASES.length;
+const BLACK_GAP_MS = 520;
+const TEXT_VISIBLE_MS = TEXT_SLOT_MS - BLACK_GAP_MS;
 
 export default function Intro() {
   const router = useRouter();
   const { t } = useLanguage();
   const [phase, setPhase] = useState("waiting");
-  const [signatureStep, setSignatureStep] = useState(0);
   const [hidden, setHidden] = useState(false);
   const [soundOn, setSoundOn] = useState(true);
   const audioRef = useRef(null);
@@ -76,8 +72,7 @@ export default function Intro() {
 
     setHidden(false);
     setSoundOn(withSound);
-    setSignatureStep(0);
-    setPhase("premium");
+    setPhase(NARRATIVE_PHASES[0].id);
 
     const audio = audioRef.current;
     if (audio) {
@@ -90,31 +85,23 @@ export default function Intro() {
       }
     }
 
-    // Narrative timing is intentionally non-uniform:
-    // 0-4.53s      Premium (1 line)
-    // 4.53-14.88s  Precision (2 lines)
-    // 14.88-25.24s Excellence (2 lines)
-    // 25.24-40.12s Standards (3 lines)
-    // 40.12-55s    Uncompromised (3 lines)
-    // 55s    GREENART
-    // 57s    Art of Technological Cultivation
-    // 59s    Request B2B Offer to get access
-    // 60s+   Hold the final screen indefinitely until the CTA is pressed.
-    queue(() => setPhase("precision"), PHASE_TIMINGS.precision);
-    queue(() => setPhase("excellence"), PHASE_TIMINGS.excellence);
-    queue(() => setPhase("standards"), PHASE_TIMINGS.standards);
-    queue(() => setPhase("uncompromised"), PHASE_TIMINGS.uncompromised);
+    // Every text screen is isolated. It fades out first, then the overlay stays
+    // completely black for a short beat before the following text appears.
+    TEXT_PHASES.forEach((id, index) => {
+      const startsAt = index * TEXT_SLOT_MS;
 
-    queue(() => {
-      setPhase("signature");
-      setSignatureStep(1);
-    }, PHASE_TIMINGS.signature);
+      if (index > 0) {
+        queue(() => setPhase(id), startsAt);
+      }
 
-    queue(() => setSignatureStep(2), PHASE_TIMINGS.signatureTagline);
-    queue(() => setSignatureStep(3), PHASE_TIMINGS.signatureCta);
+      queue(() => setPhase(`blank-${id}`), startsAt + TEXT_VISIBLE_MS);
+    });
 
-    // Deliberately NO automatic redirect at 60 seconds.
-    // The final screen stays visible until the user presses the B2B CTA.
+    // At 59s the existing logo + B2B button appear and remain available after
+    // the 60-second soundtrack ends.
+    queue(() => setPhase("finale"), FINALE_AT_MS);
+
+    // No automatic redirect at 60 seconds: the final CTA remains on screen.
   }
 
   function stopAudio() {
@@ -133,8 +120,7 @@ export default function Intro() {
     introStartRef.current = null;
 
     stopAudio();
-    setPhase("signature");
-    setSignatureStep(3);
+    setPhase("finale");
   }
 
   function goToOffer() {
@@ -185,40 +171,28 @@ export default function Intro() {
   }
 
   function messageClass(messagePhase, modifier = "") {
-    const currentIndex = PHASE_ORDER.indexOf(phase);
-    const messageIndex = PHASE_ORDER.indexOf(messagePhase);
+    const normalizedPhase = phase.startsWith("blank-")
+      ? phase.slice("blank-".length)
+      : phase;
+    const currentIndex = TEXT_PHASES.indexOf(normalizedPhase);
+    const messageIndex = TEXT_PHASES.indexOf(messagePhase);
     const isVisible = phase === messagePhase;
-    const isOut = currentIndex > messageIndex;
+    const isLeaving = phase === `blank-${messagePhase}`;
+    const isPast = currentIndex > messageIndex || phase === "finale";
 
     return [
       "intro__message",
       modifier,
       isVisible ? "is-visible" : "",
-      isOut ? "is-out" : "",
+      isLeaving || isPast ? "is-out" : "",
     ]
       .filter(Boolean)
       .join(" ");
   }
 
-  function stagedCopy(keys, delays) {
-    return (
-      <strong className="intro__staged-copy">
-        {keys.map((key, index) => (
-          <span
-            className="intro__staged-line"
-            style={{ "--intro-line-delay": `${delays[index] ?? 0}ms` }}
-            key={key}
-          >
-            {t(key)}
-          </span>
-        ))}
-      </strong>
-    );
-  }
-
   return (
     <div
-      className={`intro ${phase === "waiting" ? "intro--waiting" : ""} ${hidden ? "is-hidden" : ""}`}
+      className={`intro ${phase === "waiting" ? "intro--waiting" : ""} ${phase.startsWith("blank-") ? "intro--black-beat" : ""} ${hidden ? "is-hidden" : ""}`}
       aria-hidden={hidden}
     >
       <div className="intro__glow" />
@@ -238,49 +212,24 @@ export default function Intro() {
       )}
 
       <div className="intro__sequence" aria-live="polite">
-        <div className={messageClass("premium", "intro__message--headline")}>
-          {stagedCopy(["intro.premium"], [0])}
+        {NARRATIVE_PHASES.map(({ id, key }) => (
+          <div className={messageClass(id, "intro__message--headline")} key={id}>
+            <strong>{t(key)}</strong>
+          </div>
+        ))}
+
+        <div className={messageClass("greenart", "intro__message--greenart")}>
+          <strong>GREEN ART</strong>
         </div>
 
-        <div className={messageClass("precision", "intro__message--headline")}>
-          {stagedCopy(
-            ["intro.precision.1", "intro.precision.2"],
-            [0, narrativeMs(6500)]
-          )}
+        <div className={messageClass("tagline", "intro__message--tagline")}>
+          <strong>{t("intro.tagline")}</strong>
         </div>
 
-        <div className={messageClass("excellence", "intro__message--headline")}>
-          {stagedCopy(
-            ["intro.excellence.1", "intro.excellence.2"],
-            [0, narrativeMs(6500)]
-          )}
-        </div>
-
-        <div className={messageClass("standards", "intro__message--headline")}>
-          {stagedCopy(
-            ["intro.standards.1", "intro.standards.2", "intro.standards.3"],
-            [0, narrativeMs(6000), narrativeMs(12000)]
-          )}
-        </div>
-
-        <div className={messageClass("uncompromised", "intro__message--headline")}>
-          {stagedCopy(
-            [
-              "intro.uncompromised.1",
-              "intro.uncompromised.2",
-              "intro.uncompromised.3",
-            ],
-            [0, narrativeMs(6000), narrativeMs(12000)]
-          )}
-        </div>
-
-        <div className={`intro__signature ${phase === "signature" ? "is-visible" : ""}`}>
-          <strong className={signatureStep >= 1 ? "is-visible" : ""}>GREEN ART</strong>
-          <span className={signatureStep >= 2 ? "is-visible" : ""}>
-            {t("intro.tagline")}
-          </span>
+        <div className={`intro__final ${phase === "finale" ? "is-visible" : ""}`}>
+          <img src={logo.src} alt="GreenArt — Art of Technological Cultivation" className="intro__final-logo" />
           <button
-            className={`intro__signature-button ${signatureStep >= 3 ? "is-visible" : ""}`}
+            className="intro__signature-button is-visible"
             type="button"
             onClick={goToOffer}
           >
@@ -289,7 +238,7 @@ export default function Intro() {
         </div>
       </div>
 
-      {phase !== "waiting" && phase !== "signature" && (
+      {phase !== "waiting" && phase !== "finale" && (
         <div className="intro__tools is-visible">
           <button type="button" onClick={toggleSound}>
             {soundOn ? t("intro.soundOn") : t("intro.soundOff")}
@@ -306,4 +255,3 @@ export default function Intro() {
     </div>
   );
 }
-
