@@ -10,9 +10,17 @@ const NARRATIVE_PHASES = [
   { id: "precision1", key: "intro.precision.1" },
   { id: "precision2", key: "intro.precision.2" },
   { id: "excellence1", key: "intro.excellence.1" },
-  { id: "excellence2", key: "intro.excellence.2" },
+  {
+    id: "excellence2",
+    key: "intro.excellence.2",
+    mobileKeys: ["intro.excellence.2.mobile.1", "intro.excellence.2.mobile.2"],
+  },
   { id: "standards1", key: "intro.standards.1" },
-  { id: "standards2", key: "intro.standards.2" },
+  {
+    id: "standards2",
+    key: "intro.standards.2",
+    mobileKeys: ["intro.standards.2.mobile.1", "intro.standards.2.mobile.2"],
+  },
   { id: "standards3", key: "intro.standards.3" },
   { id: "uncompromised1", key: "intro.uncompromised.1" },
   { id: "uncompromised2", key: "intro.uncompromised.2" },
@@ -212,9 +220,25 @@ export default function Intro() {
       )}
 
       <div className="intro__sequence" aria-live="polite">
-        {NARRATIVE_PHASES.map(({ id, key }) => (
-          <div className={messageClass(id, "intro__message--headline")} key={id}>
-            <strong>{t(key)}</strong>
+        {NARRATIVE_PHASES.map(({ id, key, mobileKeys }) => (
+          <div
+            className={messageClass(
+              id,
+              `intro__message--headline ${mobileKeys ? "intro__message--fixed-mobile-lines" : ""}`
+            )}
+            key={id}
+          >
+            {mobileKeys ? (
+              <>
+                <strong className="intro__copy--desktop">{t(key)}</strong>
+                <strong className="intro__copy--mobile">
+                  <span>{t(mobileKeys[0])}</span>
+                  <span>{t(mobileKeys[1])}</span>
+                </strong>
+              </>
+            ) : (
+              <strong>{t(key)}</strong>
+            )}
           </div>
         ))}
 
@@ -240,10 +264,14 @@ export default function Intro() {
 
       {phase !== "waiting" && phase !== "finale" && (
         <div className="intro__tools is-visible">
-          <button type="button" onClick={toggleSound}>
-            {soundOn ? t("intro.soundOn") : t("intro.soundOff")}
-          </button>
-          <button type="button" onClick={showFinalScreen}>
+          {/*
+            Sound toggle intentionally hidden for now. Keep this block here so
+            it can be restored later without rebuilding the audio logic.
+            <button type="button" onClick={toggleSound}>
+              {soundOn ? t("intro.soundOn") : t("intro.soundOff")}
+            </button>
+          */}
+          <button className="intro__skip" type="button" onClick={showFinalScreen}>
             {t("intro.skip")}
           </button>
         </div>

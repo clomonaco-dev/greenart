@@ -126,11 +126,6 @@ img {
   animation: none;
 }
 
-.intro.intro--black-beat .intro__tools {
-  opacity: 0;
-  pointer-events: none;
-}
-
 .intro__glow {
   position: absolute;
   width: 78vw;
@@ -275,6 +270,20 @@ img {
   line-height: inherit;
   letter-spacing: inherit;
   text-transform: inherit;
+}
+
+/* The two long narrative lines use an explicit two-line mobile version.
+   Desktop keeps the original sentence untouched. */
+.intro__copy--desktop {
+  display: block;
+}
+
+.intro__copy--mobile {
+  display: none !important;
+}
+
+.intro__copy--mobile span {
+  display: block;
 }
 
 .intro__message.is-visible {
@@ -433,7 +442,7 @@ img {
   left: 28px;
   z-index: 10;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   opacity: 0;
   pointer-events: none;
   transition: opacity .5s ease;
@@ -2511,6 +2520,25 @@ img {
     font-size: inherit;
     line-height: inherit;
     letter-spacing: inherit;
+  }
+
+  /* These sentences are already two lines while still point-sized, so no
+     reflow occurs halfway through their growth animation. */
+  .intro__message--fixed-mobile-lines {
+    width: 96vw;
+    letter-spacing: .15em;
+  }
+
+  .intro__message--fixed-mobile-lines .intro__copy--desktop {
+    display: none;
+  }
+
+  .intro__message--fixed-mobile-lines .intro__copy--mobile {
+    display: block !important;
+  }
+
+  .intro__message--fixed-mobile-lines .intro__copy--mobile span {
+    white-space: nowrap;
   }
 
   .intro__message--premium {
