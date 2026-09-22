@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import logo from "@/assets/logo.jpeg";
+import logo from "@/assets/Logo_scritta.png";
 import { useLanguage } from "./LanguageProvider";
 
 const NARRATIVE_PHASES = [

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import logo from "@/assets/logo.jpeg";
+import logo from "@/assets/Logo_senza_scritta.png";
 import { useLanguage } from "./LanguageProvider";
 
 const navItems = [

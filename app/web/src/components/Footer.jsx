@@ -2,6 +2,7 @@
 
 import { useLanguage } from "./LanguageProvider";
 import { legalTranslations } from "@/data/legalTranslations";
+import logo from "@/assets/Logo_senza_scritta.png";
 
 export default function Footer() {
   const { language, t } = useLanguage();
@@ -10,6 +11,7 @@ export default function Footer() {
   return (
     <footer className="site-footer">
       <div className="site-footer__brand">
+        <img src={logo.src} alt="GreenArt" />
         <p>© {new Date().getFullYear()} GreenArt</p>
       </div>
 
