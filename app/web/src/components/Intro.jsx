@@ -73,25 +73,29 @@ export default function Intro() {
     timersRef.current.push(window.setTimeout(fn, ms));
   }
 
-  function startIntro(withSound) {
+  function startIntro() {
     timersRef.current.forEach(clearTimeout);
     timersRef.current = [];
     introStartRef.current = performance.now();
 
     setHidden(false);
-    setSoundOn(withSound);
+    setSoundOn(true);
     setPhase(NARRATIVE_PHASES[0].id);
 
     const audio = audioRef.current;
     if (audio) {
       audio.pause();
       audio.currentTime = 0;
-
-      if (withSound) {
-        audio.volume = INTRO_VOLUME;
-        audio.play().catch(() => setSoundOn(false));
-      }
+      audio.volume = INTRO_VOLUME;
+      audio.play().catch(() => setSoundOn(false));
     }
+
+    /*
+      Silent-entry mode intentionally disabled at the client's request.
+      Previously startIntro accepted a `withSound` boolean and skipped
+      audio playback when it was false. Keep this note here so the option
+      can be restored later if needed.
+    */
 
     // Every text screen is isolated. It fades out first, then the overlay stays
     // completely black for a short beat before the following text appears.
@@ -207,15 +211,27 @@ export default function Intro() {
 
       {phase === "waiting" && (
         <>
-          <button className="intro__enter" type="button" onClick={() => startIntro(true)}>
+          <button className="intro__enter" type="button" onClick={startIntro}>
             <img src={logo.src} alt="GreenArt" className="intro__enter-logo" />
             <span>{t("intro.enter")}</span>
-            <small>{t("intro.soundHint")}</small>
+            {/*
+              "Sound experience" intentionally removed from the entry screen.
+              <small>{t("intro.soundHint")}</small>
+            */}
           </button>
 
-          <button className="intro__mute-enter" type="button" onClick={() => startIntro(false)}>
-            {t("intro.enterMuted")}
-          </button>
+          {/*
+            Silent entry intentionally disabled at the client's request.
+            This button used to call startIntro(false):
+
+            <button
+              className="intro__mute-enter"
+              type="button"
+              onClick={() => startIntro(false)}
+            >
+              {t("intro.enterMuted")}
+            </button>
+          */}
         </>
       )}
 
